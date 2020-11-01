@@ -1,0 +1,352 @@
+{
+  "type": "bubble",
+  "header":
+  {
+    "type": "box",
+    "layout": "horizontal",
+    "contents": [
+    {
+      "type": "text",
+      "text": "{{equipcode}}",
+      "size": "xl",
+      "align": "center",
+      "gravity": "center",
+      "weight": "bold",
+      "color": "#FFFFFF"
+    }],
+    "backgroundColor": "#FD7007"
+  },
+  "body":
+  {
+    "type": "box",
+    "layout": "horizontal",
+    "spacing": "none",
+    "contents": [
+    {
+      "type": "box",
+      "layout": "vertical",
+      "flex": 2,
+      "contents": [
+      {
+        "type": "text",
+        "text": "{{station}}",
+        "size": "xxl",
+        "gravity": "center",
+        "weight": "bold",
+        "color": "#030303",
+        "margin": "none",
+        "align": "center"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+        {
+          "type": "image",
+          "margin": "none",
+          "size": "3xl",
+          "gravity": "center",
+          "align": "center",
+          "aspectMode": "fit",
+          "aspectRatio": "3:1",
+          "url": "{{status}}"
+        }]
+      },
+      {
+        "type": "text",
+        "text": "{{daterestore}} {{timerestore}} น.",
+        "flex": 3,
+        "margin": "sm",
+        "size": "md",
+        "gravity": "center",
+        "wrap": true,
+        "weight": "bold",
+        "align": "center"
+      },
+      {
+        "type": "separator",
+        "margin": "lg"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+          {
+            "type": "text",
+            "text": "เวลาที่เกิดเหตุ",
+            "align": "start"
+          }]
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+          {
+            "type": "text",
+            "text": "{{timehappen}} น.",
+            "align": "end",
+            "weight": "bold"
+          }]
+        }],
+        "margin": "lg"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+          {
+            "type": "text",
+            "text": "เวลาที่จ่ายไฟคืน",
+            "align": "start"
+          }]
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+          {
+            "type": "text",
+            "text": "{{timerestore}} น.",
+            "align": "end",
+            "weight": "bold"
+          }]
+        }],
+        "margin": "lg"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+          {
+            "type": "text",
+            "text": "ระยะเวลารวม",
+            "align": "start",
+            "weight": "bold"
+          }]
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+          {
+            "type": "text",
+            "text": "{{duration}}",
+            "align": "end",
+            "weight": "bold"
+          }]
+        }],
+        "margin": "lg"
+      },
+      {
+        "type": "separator",
+        "margin": "xl"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+          {
+            "type": "text",
+            "text": "สภาพอากาศ",
+            "align": "start"
+          }]
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+          {
+            "type": "text",
+            "text": "{{weather}}",
+            "align": "end",
+            "weight": "bold"
+          }]
+        }],
+        "margin": "lg"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+          {
+            "type": "text",
+            "text": "ผู้ใช้ไฟกระทบ",
+            "align": "start"
+          }]
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+          {
+            "type": "text",
+            "text": "- ราย",
+            "align": "end",
+            "weight": "bold"
+          }]
+        }],
+        "margin": "lg"
+      },
+      {
+        "type": "separator",
+        "margin": "lg"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+        {
+          "type": "image",
+          "url": "{{image}}",
+          "size": "full",
+          "aspectMode": "cover",
+          "aspectRatio": "150:196",
+          "action":
+          {
+            "type": "uri",
+            "label": "ดูรูป",
+            "uri": "{{image_share}}"
+          }
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+          {
+            "type": "image",
+            "url": "{{image}}",
+            "aspectMode": "cover",
+            "size": "full",
+            "aspectRatio": "150:98",
+            "align": "center",
+            "gravity": "center",
+            "action":
+            {
+              "type": "uri",
+              "label": "ดูรูป",
+              "uri": "{{image_share}}"
+            }
+          },
+          {
+            "type": "image",
+            "url": "{{image}}",
+            "aspectRatio": "150:98",
+            "aspectMode": "cover",
+            "size": "full",
+            "action":
+            {
+              "type": "uri",
+              "label": "ดูรูป",
+              "uri": "{{image_share}}"
+            }
+          }]
+        }],
+        "margin": "lg"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+          {
+            "type": "text",
+            "text": "สาเหตุ:",
+            "align": "start"
+          },
+          {
+            "type": "text",
+            "text": "{{cause_name}}",
+            "weight": "bold",
+            "margin": "md"
+          }]
+        }],
+        "margin": "lg"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+          {
+            "type": "text",
+            "text": "รายละเอียด:",
+            "align": "start"
+          },
+          {
+            "type": "text",
+            "text": "{{detail}}",
+            "weight": "bold",
+            "wrap": true,
+            "margin": "lg"
+          }]
+        }],
+        "margin": "lg"
+      }],
+      "spacing": "none"
+    }]
+  },
+  "footer":
+  {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+    {
+      "type": "button",
+      "action":
+      {
+        "type": "uri",
+        "label": "แชร์ข้อมูล",
+        "uri": "{{share}}"
+      },
+      "color": "#6F64F8",
+      "style": "primary",
+      "margin": "lg"
+    },
+    {
+      "type": "button",
+      "action":
+      {
+        "type": "uri",
+        "label": "รายละเอียด",
+        "uri": "{{technical}}"
+      },
+      "color": "#FD7007",
+      "style": "primary",
+      "margin": "xxl"
+    }],
+    "margin": "xxl"
+  },
+  "styles":
+  {
+    "footer":
+    {
+      "separator": true
+    }
+  }
+}

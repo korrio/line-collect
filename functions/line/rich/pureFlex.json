@@ -1,0 +1,120 @@
+{
+    "type": "flex",
+    "altText": "text",
+    "contents":
+    {
+        "type": "bubble",
+        "header":
+        {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+            {
+                "type": "text",
+                "text": "รหัสเหตุการณ์: LBA-002",
+                "size": "md",
+                "align": "start",
+                "gravity": "center",
+                "weight": "bold",
+                "color": "#070000"
+            }]
+        },
+        "hero":
+        {
+            "type": "image",
+            "url": "https://aq1.co/the-uploader/files/1/rc2-logo1-01-p-2000.png",
+            "align": "start",
+            "aspectRatio": "1:1",
+            "aspectMode": "fit"
+        },
+        "body":
+        {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "md",
+            "contents": [
+            {
+                "type": "box",
+                "layout": "vertical",
+                "flex": 2,
+                "contents": [
+                {
+                    "type": "text",
+                    "text": "การไฟฟ้าลพบุรี",
+                    "flex": 5,
+                    "size": "md",
+                    "gravity": "top",
+                    "weight": "bold",
+                    "color": "#030303"
+                },
+                {
+                    "type": "separator"
+                },
+                {
+                    "type": "text",
+                    "text": "วันที่ 12/06/2563 เวลา 13:09 น.",
+                    "flex": 3,
+                    "margin": "sm",
+                    "size": "sm",
+                    "gravity": "center"
+                },
+                {
+                    "type": "separator",
+                    "margin": "xs"
+                },
+                {
+                    "type": "text",
+                    "text": "อุปกรณ์ที่ทำงาน: LBA01VB-01 ",
+                    "flex": 3,
+                    "margin": "sm",
+                    "size": "sm",
+                    "gravity": "center",
+                    "wrap": true
+                },
+                {
+                    "type": "separator",
+                    "margin": "xs"
+                },
+                {
+                    "type": "text",
+                    "text": "การทำงาน: T/L"
+                },
+                {
+                    "type": "separator",
+                    "margin": "xs"
+                },
+                {
+                    "type": "text",
+                    "text": "ด้าน: TIME   โชว์: ABCG",
+                    "flex": 3,
+                    "margin": "sm",
+                    "size": "md",
+                    "gravity": "bottom"
+                },
+                {
+                    "type": "separator"
+                },
+                {
+                    "type": "text",
+                    "text": "สภาพอากาศ: ปกติ",
+                    "margin": "sm",
+                    "size": "md",
+                    "weight": "regular"
+                },
+                {
+                    "type": "separator"
+                },
+                {
+                    "type": "text",
+                    "text": "สถานะ: รอดำเนินการ",
+                    "weight": "bold",
+                    "color": "#C3493D"
+                },
+                {
+                    "type": "separator",
+                    "margin": "xs"
+                }]
+            }]
+        }
+    }
+}

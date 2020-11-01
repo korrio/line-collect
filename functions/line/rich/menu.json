@@ -1,0 +1,77 @@
+{
+    "type": "carousel",
+    "imageAspectRatio": "square",
+    "columns": [
+    {
+        "thumbnailImageUrl": "https://firebasestorage.googleapis.com/v0/b/rcsquare-peathailand.appspot.com/o/c_event.png?alt=media&token=b8e6bff0-86d8-4f69-b4a7-79d9f440f390",
+        "imageBackgroundColor": "#FFFFFF",
+        "title": "การจัดการข้อมูลไฟฟ้าดับ",
+        "text": "ระบบ RC2",
+        "defaultAction":
+        {
+            "type": "uri",
+            "label": "จัดการ",
+            "uri": "https://rc2.aq1.co/admin/mobile.html"
+        },
+        "actions": [
+        {
+            "type": "uri",
+            "label": "จัดการ",
+            "uri": "https://rc2.aq1.co/admin/mobile.html"
+        }]
+    },
+    {
+        "thumbnailImageUrl": "https://firebasestorage.googleapis.com/v0/b/rcsquare-peathailand.appspot.com/o/c_report.png?alt=media&token=7f2e7c32-7f0c-4105-9447-31246f1152d5",
+        "imageBackgroundColor": "#FFFFFF",
+        "title": "การจัดการข้อมูลไฟฟ้าดับ",
+        "text": "ระบบ RC2",
+        "defaultAction":
+        {
+            "type": "uri",
+            "label": "จัดการ",
+            "uri": "https://rc2.aq1.co/admin/mobile.html"
+        },
+        "actions": [
+        {
+            "type": "uri",
+            "label": "จัดการ",
+            "uri": "https://rc2.aq1.co/admin/mobile.html"
+        }]
+    },
+    {
+        "thumbnailImageUrl": "https://firebasestorage.googleapis.com/v0/b/rcsquare-peathailand.appspot.com/o/c_recommend.png?alt=media&token=ea371f60-866d-4c42-bfd3-3b4d6e36d570",
+        "imageBackgroundColor": "#FFFFFF",
+        "title": "การจัดการข้อมูลไฟฟ้าดับ",
+        "text": "ระบบ RC2",
+        "defaultAction":
+        {
+            "type": "uri",
+            "label": "จัดการ",
+            "uri": "https://rc2.aq1.co/admin/mobile.html"
+        },
+        "actions": [
+        {
+            "type": "uri",
+            "label": "จัดการ",
+            "uri": "https://rc2.aq1.co/admin/mobile.html"
+        }]
+    },
+    {
+        "thumbnailImageUrl": "https://firebasestorage.googleapis.com/v0/b/rcsquare-peathailand.appspot.com/o/c_profile.png?alt=media&token=0702d3b9-f266-4920-856d-632c3695da00",
+        "imageBackgroundColor": "#FFFFFF",
+        "title": "การจัดการข้อมูลไฟฟ้าดับ",
+        "text": "ระบบ RC2",
+        "defaultAction":
+        {
+            "type": "uri",
+            "label": "จัดการ",
+            "uri": "https://rc2.aq1.co/admin/mobile.html"
+        },
+        "actions": [
+        {
+            "type": "uri",
+            "label": "จัดการ",
+            "uri": "https://rc2.aq1.co/admin/mobile.html"
+        }]
+    }]
+}

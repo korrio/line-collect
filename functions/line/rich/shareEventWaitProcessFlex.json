@@ -1,0 +1,390 @@
+{
+  "type": "bubble",
+  "header": {
+    "type": "box",
+    "layout": "horizontal",
+    "contents": [
+      {
+        "type": "text",
+        "text": "{{equipcode}}",
+        "size": "xl",
+        "align": "center",
+        "gravity": "center",
+        "weight": "bold",
+        "color": "#FFFFFF"
+      }
+    ],
+    "backgroundColor": "#FD7007"
+  },
+  "body": {
+    "type": "box",
+    "layout": "horizontal",
+    "spacing": "none",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "vertical",
+        "flex": 2,
+        "contents": [
+          {
+            "type": "text",
+            "text": "{{station}}",
+            "size": "xxl",
+            "gravity": "center",
+            "weight": "bold",
+            "color": "#030303",
+            "margin": "none",
+            "align": "center"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "image",
+                "url": "{{status}}",
+                "margin": "none",
+                "size": "3xl",
+                "gravity": "center",
+                "align": "center",
+                "aspectMode": "fit",
+                "aspectRatio": "3:1"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "{{datecreated}}",
+            "flex": 3,
+            "margin": "sm",
+            "size": "md",
+            "gravity": "center",
+            "wrap": true,
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "type": "separator",
+            "margin": "lg"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "วันที่เกิดเหตุ",
+                    "align": "start"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "{{datehappen}}",
+                    "align": "end",
+                    "weight": "bold"
+                  }
+                ]
+              }
+            ],
+            "margin": "md"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "เวลาที่เกิดเหตุ",
+                    "align": "start"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "{{timehappen}}น.",
+                    "align": "end",
+                    "weight": "bold"
+                  }
+                ]
+              }
+            ],
+            "margin": "md"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "รหัสเหตุการณ์",
+                    "align": "start"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "{{event_id}}",
+                    "align": "end",
+                    "weight": "bold"
+                  }
+                ]
+              }
+            ],
+            "margin": "lg"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "รีเลย์ที่ทำงาน",
+                    "align": "start"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "{{relay}}",
+                    "align": "end",
+                    "weight": "bold",
+                    "wrap": true
+                  }
+                ]
+              }
+            ],
+            "margin": "lg"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "การทำงาน",
+                    "align": "start"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "{{fedderwork}}",
+                    "align": "end",
+                    "weight": "bold",
+                    "wrap": true
+                  }
+                ]
+              }
+            ],
+            "margin": "lg"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "รายละเอียดรีเลย์",
+                    "align": "start"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "เฟส {{phase}}",
+                    "align": "end",
+                    "weight": "bold"
+                  }
+                ]
+              }
+            ],
+            "margin": "lg"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "แสดง",
+                    "align": "start"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "{{phase_show}}",
+                    "align": "end",
+                    "weight": "bold"
+                  }
+                ]
+              }
+            ],
+            "margin": "lg"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "สภาพอากาศ",
+                    "align": "start"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "{{weather}}",
+                    "align": "end",
+                    "weight": "bold"
+                  }
+                ]
+              }
+            ],
+            "margin": "lg"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "หมายเหตุอื่นๆ:",
+                    "align": "start"
+                  },
+                  {
+                    "type": "text",
+                    "text": "{{detail}}",
+                    "weight": "bold",
+                    "wrap": true,
+                    "margin": "lg"
+                  }
+                ]
+              }
+            ],
+            "margin": "lg"
+          },
+          {
+            "type": "separator",
+            "margin": "xl"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "image",
+                "url": "https://firebasestorage.googleapis.com/v0/b/pea-datalab.appspot.com/o/photos%2FU092c564a64d482c176129cd4bc0b1bac%2F1592969390592.jpg?alt=media&token=2156a519-8f05-4498-a037-ba1b2c4e47a9"
+              },
+              {
+                "type": "text",
+                "text": "ระบบพยากรณ์สาเหตุ",
+                "align": "center"
+              },
+              {
+                "type": "text",
+                "text": "คาดว่าเกิดจาก : {{ai}}",
+                "align": "center",
+                "weight": "regular"
+              },
+              {
+                "type": "text",
+                "text": "(ความเชื่อมั่น : {{ai_confident}} %)",
+                "align": "center",
+                "weight": "regular"
+              }
+            ]
+          }
+        ],
+        "spacing": "none"
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "horizontal",
+    "contents": [
+      {
+        "type": "button",
+        "action": {
+          "type": "uri",
+          "label": "ดำเนินการ",
+          "uri": "{{technical}}"
+        },
+        "color": "#FD7007",
+        "style": "primary"
+      }
+    ],
+    "margin": "xxl"
+  }
+}

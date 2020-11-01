@@ -1,0 +1,112 @@
+{
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "image",
+            "url": "https://www.thairath.co.th/media/HCtHFA7ele6Q2dUMaptjSKnfpE0yrLO7HyhdWr9yxtJu5p0KkNFjK7IXqFwxOC9l1a.jpg",
+            "size": "5xl",
+            "aspectMode": "cover",
+            "aspectRatio": "150:196",
+            "gravity": "center",
+            "flex": 1
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "image",
+                "url": "https://mpics.mgronline.com/pics/Images/562000007749205.JPEG",
+                "size": "full",
+                "aspectMode": "cover",
+                "aspectRatio": "150:98",
+                "gravity": "center"
+              },
+              {
+                "type": "image",
+                "url": "https://mpics.mgronline.com/pics/Images/562000007749201.JPEG",
+                "size": "full",
+                "aspectMode": "cover",
+                "aspectRatio": "150:98",
+                "gravity": "center"
+              }
+            ],
+            "flex": 1
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "image",
+                "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRh50crZGwoghbGDqKcEz2gvf4cjHWx1Psoyo-4Uc6TCp57sY23&usqp=CAU",
+                "aspectMode": "cover",
+                "size": "full"
+              }
+            ],
+            "cornerRadius": "100px",
+            "width": "72px",
+            "height": "72px"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "contents": [
+                  {
+                    "type": "span",
+                    "text": "PEA-0023",
+                    "weight": "bold",
+                    "color": "#000000"
+                  },
+                  {
+                    "type": "span",
+                    "text": "     "
+                  },
+                  {
+                    "type": "span",
+                    "text": "\tกฟจ.ลพบุรี / LBB03B-01"
+                  }
+                ],
+                "size": "sm",
+                "wrap": true
+              },
+              {
+                "type": "box",
+                "layout": "baseline",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "12/06/63 12.30น.",
+                    "size": "sm",
+                    "color": "#bcbcbc"
+                  }
+                ],
+                "spacing": "sm",
+                "margin": "md"
+              }
+            ]
+          }
+        ],
+        "spacing": "xl",
+        "paddingAll": "20px"
+      }
+    ],
+    "paddingAll": "0px"
+  }
+}

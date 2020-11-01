@@ -1,0 +1,120 @@
+{
+  "type": "carousel",
+  "contents": [
+  {
+    "type": "bubble",
+    "body":
+    {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+      {
+        "type": "image",
+        "size": "full",
+        "aspectMode": "cover",
+        "gravity": "center",
+        "url": "https://firebasestorage.googleapis.com/v0/b/rcsquare-peathailand.appspot.com/o/c_event.png?alt=media&token=c006e7a7-1eb5-462f-ab99-59d98d7313ae",
+        "aspectRatio": "1:1",
+        "action":
+        {
+          "type": "uri",
+          "label": "Event Dashboard",
+          "uri": "https://liff.line.me/1654302066-R3aEW1za"
+        }
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+        {
+          "type": "text",
+          "text": "Event Dashboard",
+          "color": "#ffffff",
+          "align": "center",
+          "size": "xs",
+          "offsetTop": "3px"
+        }],
+        "position": "absolute",
+        "cornerRadius": "20px",
+        "offsetTop": "18px",
+        "backgroundColor": "#ff334b",
+        "offsetStart": "18px",
+        "height": "25px",
+        "width": "53px"
+      }],
+      "paddingAll": "0px"
+    }
+  },
+  {
+    "type": "bubble",
+    "body":
+    {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+      {
+        "type": "image",
+        "size": "full",
+        "aspectMode": "cover",
+        "gravity": "center",
+        "aspectRatio": "1:1",
+        "action":
+        {
+          "type": "message",
+          "label": "report",
+          "text": "report"
+        },
+        "url": "https://firebasestorage.googleapis.com/v0/b/rcsquare-peathailand.appspot.com/o/c_report.png?alt=media&token=4805fb76-1039-4b8b-8d46-15170f06c4da"
+      }],
+      "paddingAll": "0px"
+    }
+  },
+  {
+    "type": "bubble",
+    "body":
+    {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+      {
+        "type": "image",
+        "size": "full",
+        "aspectMode": "cover",
+        "gravity": "center",
+        "aspectRatio": "1:1",
+        "action":
+        {
+          "type": "message",
+          "label": "profile",
+          "text": "profile"
+        },
+        "url": "https://firebasestorage.googleapis.com/v0/b/rcsquare-peathailand.appspot.com/o/c_profile.png?alt=media&token=58b84b72-667d-4933-8258-48003870c54d"
+      }],
+      "paddingAll": "0px"
+    }
+  },
+  {
+    "type": "bubble",
+    "body":
+    {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+      {
+        "type": "image",
+        "size": "full",
+        "aspectMode": "cover",
+        "gravity": "center",
+        "url": "https://firebasestorage.googleapis.com/v0/b/rcsquare-peathailand.appspot.com/o/c_recommend.png?alt=media&token=9113bda8-3526-4b3c-b576-d826a70342ae",
+        "aspectRatio": "1:1",
+        "action":
+        {
+          "type": "message",
+          "label": "feedback",
+          "text": "feedback"
+        }
+      }],
+      "paddingAll": "0px"
+    }
+  }]
+}

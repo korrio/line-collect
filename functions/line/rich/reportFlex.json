@@ -1,0 +1,251 @@
+{
+  "type": "bubble",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "หมายเลขเหตุการณ์: LBA-001",
+        "size": "md",
+        "color": "#FFFFFF"
+      }
+    ],
+    "backgroundColor": "#F69B20"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "เหตุการณ์ไฟฟ้าขัดข้อง:",
+            "weight": "bold"
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "text",
+            "text": "วันที่: 12 มิ.ย.2563"
+          }
+        ],
+        "margin": "md"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "🔦",
+                    "size": "md",
+                    "align": "start"
+                  }
+                ],
+                "flex": 1
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "เวลาไฟดับ:",
+                    "flex": 2,
+                    "align": "start"
+                  }
+                ],
+                "flex": 2
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "09.00 น."
+                  }
+                ],
+                "flex": 1
+              }
+            ],
+            "margin": "lg"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "⚡",
+                    "size": "md",
+                    "align": "start"
+                  }
+                ],
+                "flex": 1
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "เวลาจ่ายไฟ:",
+                    "align": "start"
+                  }
+                ],
+                "flex": 2
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "10.00 น."
+                  }
+                ],
+                "flex": 1
+              }
+            ],
+            "margin": "md"
+          }
+        ],
+        "margin": "md"
+      },
+      {
+        "type": "separator",
+        "margin": "md"
+      },
+      {
+        "type": "text",
+        "text": "รูปถ่ายเหตุการณ์:",
+        "weight": "bold"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "image",
+            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+            "aspectMode": "fit"
+          },
+          {
+            "type": "image",
+            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+            "aspectMode": "fit"
+          },
+          {
+            "type": "image",
+            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+            "aspectMode": "fit"
+          }
+        ]
+      },
+      {
+        "type": "separator",
+        "margin": "md"
+      },
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "text",
+            "text": "สาเหตุ:",
+            "flex": 0,
+            "weight": "bold",
+            "size": "md"
+          },
+          {
+            "type": "text",
+            "text": "ต้นไม้",
+            "flex": 2
+          }
+        ],
+        "spacing": "sm",
+        "margin": "md"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "รายละเอียดสาเหตุ:",
+            "weight": "bold"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "ต้นไม้ล้มทับสายไฟฟ้าทำให้เสาไฟฟ้าหักสามต้นบริเวณหน้าหมู่บ้านโพธิ์เก้าต้น",
+                "wrap": true,
+                "weight": "regular"
+              }
+            ]
+          }
+        ],
+        "margin": "md"
+      },
+      {
+        "type": "spacer",
+        "size": "xxl"
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "horizontal",
+    "contents": [
+      {
+        "type": "button",
+        "action": {
+          "type": "postback",
+          "label": "แชร์",
+          "data": "share"
+        },
+        "color": "#FFFFFF"
+      }
+    ],
+    "backgroundColor": "#F69B20",
+    "offsetEnd": "15px",
+    "margin": "md",
+    "action": {
+      "type": "postback",
+      "label": "action",
+      "data": "hello"
+    },
+    "cornerRadius": "10px",
+    "offsetStart": "15px",
+    "offsetBottom": "15px",
+    "flex": 0,
+    "width": "270px",
+    "position": "relative",
+    "spacing": "md",
+    "height": "50px"
+  }
+}

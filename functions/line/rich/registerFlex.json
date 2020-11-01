@@ -1,0 +1,39 @@
+{
+  "type": "bubble",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "โปรดลงทะเบียนก่อนใช้งาน",
+        "size": "lg",
+        "align": "center",
+        "gravity": "center",
+        "weight": "bold",
+        "color": "#FFFFFF"
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "horizontal",
+    "contents": [
+      {
+        "type": "button",
+        "action": {
+          "type": "uri",
+          "label": "ลงทะเบียน",
+          "uri": "https://liff.line.me/1654302066-byOL1koO"
+        },
+        "color": "#6F64F8",
+        "style": "primary"
+      }
+    ]
+  },
+  "styles": {
+    "header": {
+      "backgroundColor": "#FD7007"
+    }
+  }
+}
