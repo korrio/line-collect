@@ -16,19 +16,86 @@
     }
   </script>
 </head>
+<style>
+  .avatar {
+    max-width:80px;
+  }
+  .collect {
+    text-align:center;
+    width:300px;
+    margin:auto;
+  }
+  #pictureUrl {
+    width:80px;
+    //border-radius:50%;
+  }
+  .shadow {
+    box-shadow: 0 4px 25px 0 rgba(0,0,0,.1);
+  }
+  .full-name {
+    font-weight:700;
+    margin-top:15px;
+  }
+  .mobile {
+    font-weight:700;
+    color:#12CF35;
+  }
+  .email {
+    color:#12CF35;
+  }
+  .position {
+    color:#C4C4C4;
+  }
+  .none {
+    display:none;
+  }
+  .btn-success {
+    background-color: #12CF35;
+    border:1px solid #12CF35;
+  }
+  .card {
+    border:none !important;
+    border-radius:10px !important;
+  }
+</style>
 
 <body>
   <div class="container">
     <div class="row">
-      <div class="col-md-4 mx-auto">
+      <div class="col-md-4">
+        <!-- <div class="card collect text-white bg-primary shadow mt-4"> -->
+        <div class="card collect shadow mt-4">
+          <div class="card-body" class="align-middle align-center">
+            <div class="profile-image mx-auto">
+              <img class="avatar  img-fluid" src="" />
+            </div>
+            <span class="full-name">Thananon Ngoenthaworn</span>
+            <span class="mobile">0826539264</span>
+            <p><span class="email">korr@aq1.co</span></p>
+            <div id="qrcode">
+              <!--  <img  class="img-fluid" /> -->
+            </div>
+            <span class="position">Full stack developer</span>
+            <p><span class="company">AQUARIO Co.,Ltd.</span></p>
+            <img src="https://social-plugins.line.me/img/web/v3-share/square-default.png" class="none img-buffer" />
+            <button class="btn btn-primary btn-lg btn-block btn-scan">
+              Collect
+            </button>
+            <button class="btn btn-success btn-lg btn-block update-profile">
+              Save
+            </button>
+          </div>
+        </div>
+        <!-- <div class="collect">
+  
+        </div> -->
+      </div>
+      <div class="col-md-4 mt-4">
         <div class="card">
           <div class="card-body">
-            <div class="profile-image mx-auto">
-              <img id="pictureUrl" class="circle img-fluid">
-            </div>
             <h2 id="displayName" class="text-center"></h2>
             <form>
-              <h2>อัพเดทข้อมูลส่วนตัว</h2>
+              <!-- <h2>อัพเดทข้อมูลส่วนตัว</h2> -->
               <div class="form-group">
                 <label for="user-id-input">LINE ID</label>
                 <input type="text" class="form-control" id="user-id-input" placeholder="UID" disabled>
@@ -38,27 +105,27 @@
                 <input type="text" class="form-control" id="access-token-input" placeholder="UID">
               </div>
               <div class="form-group">
-                <label for="first-name-input">ชื่อ</label>
-                <input type="text" class="form-control" id="first-name-input" placeholder="First Name">
+                <label for="full-name-input">Full name</label>
+                <input type="text" class="form-control" id="full-name-input" placeholder="First Name">
               </div>
               <div class="form-group">
-                <label for="last-name-input">นามสกุล</label>
-                <input type="text" class="form-control" id="last-name-input" placeholder="Last Name">
+                <label for="mobile-input">Mobile number</label>
+                <input type="email" class="form-control" id="mobile-input" aria-describedby="emailHelp">
               </div>
               <div class="form-group">
-                <label for="email-input">อีเมล์</label>
+                <label for="email-input">Email</label>
                 <input type="email" class="form-control" id="email-input" aria-describedby="emailHelp">
               </div>
               <div class="form-group">
-                <label for="title-input">ตำแหน่ง</label>
+                <label for="title-input">Position</label>
                 <input type="text" class="form-control" id="title-input" />
               </div>
               <div class="form-group">
-                <label for="department-input">สังกัด</label>
-                <input type="text" class="form-control" id="department-input" />
+                <label for="company-input">Company</label>
+                <input type="text" class="form-control" id="company-input" />
               </div>
               <div class="form-group">
-                <label for="role">ตำแหน่งในระบบ</label>
+                <label for="role">Role</label>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="role" id="role1" value="role1" checked>
                   <label class="form-check-label" for="role1">
@@ -108,8 +175,9 @@
   </div>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+  <script src="https://static.line-scdn.net/liff/edge/versions/2.5.0/sdk.js"></script>
   <script src="https://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.3.0"></script>
+  <script src="./js/kjua.min.js"></script>
   <script>
   // init vConsole
   var vConsole = new VConsole();
@@ -133,39 +201,40 @@
     }
 
   };
-  </script>
-  <script>
+
   let lineProfile;
-  let peaProfile;
-  let rc2Profile;
+  let lineCollectProfile;
 
   let myLineName = "";
   let myLineID = "";
   let myRole = "";
 
-  lineProfile = Disk.get("line_profile");
-  peaProfile = Disk.get("pea_profile");
-  rc2Profile = Disk.get("rc2_profile");
+  let collect_url = "https://liff.line.me/1655196636-nvdWB6xz?username=";
 
-  if (typeof(rc2Profile) !== 'undefined' && rc2Profile) {
-    myRole = rc2Profile.role;
+  lineProfile = Disk.get("line_profile");
+  lineCollectProfile = Disk.get("line_collect_profile");
+
+  if (typeof(lineCollectProfile) !== 'undefined' && lineCollectProfile) {
+    myRole = lineCollectProfile.role;
     $('#' + myRole).prop('checked', true);
   }
 
-  if (typeof(peaProfile) !== 'undefined' && peaProfile) {
-    $("#first-name-input").val(peaProfile.FirstName[0]);
-    $("#last-name-input").val(peaProfile.LastName[0]);
-    $("#email-input").val(peaProfile.Email[0]);
-    $("#department-input").val(peaProfile.DepartmentShortName[0]);
-    $("#employee-id-input").val(peaProfile.EmployeeId[0]);
-    $("#employee-username-input").val(peaProfile.Username[0]);
-  }
-
   $(() => {
+    $(".btn-scan").on("click",function(e){
+      e.preventDefault();
+
+      window.location.href = "https://line.me/R/nv/QRCodeReader";
+
+      // liff.scanCode().then(result => {
+      //   console.log(result);
+      //   // result = { value: '' }
+      // });
+    })
+    
     console.log(params);
     if (params['username']) {
-      getPeaProfile(params['username']);
-      $("#employee-username-input").val(params['username']);
+      getCollectProfileByUsername(params['username']);
+      $("#mobile-input").val(params['username']);
     }
     // main liff id
     liff.init({ liffId: "1655196636-nvdWB6xz" }, () => {
@@ -191,11 +260,8 @@
     //     liff.logout();
     // });
 
-    $("#employee-username-input").change(function() {
-      console.log($(this).val())
-      if ($(this).val().length == 6) {
-        getPeaProfile($(this).val())
-      }
+    $("#mobile-input").change(function() {
+      getCollectProfileByUsername($(this).val())
     });
 
     $(".view-my-task").on("click", function(e) {
@@ -212,32 +278,27 @@
       if (!lineProfile)
         lineProfile = {
           userId: "U00000000000000000000000000000000",
-          pictureUrl: "https://rc2.aq1.co/admin/avatar.png"
+          pictureUrl: "https://line-collect.web.app/img/avatar.png"
         }
-      rc2Profile = {
+      lineCollectProfile = {
         "role": myRole,
-        "first_name": $("#first-name-input").val(),
-        "last_name": $("#last-name-input").val(),
-        "pea_id": $("#employee-username-input").val(),
-        "pea_username": $("#employee-username-input").val(),
+        "full_name": $("#full-name-input").val(),
+        "username": $("#username-input").val(),
         "email": $("#email-input").val(),
-        "line_id": lineProfile.userId,
-        "avatar": lineProfile.pictureUrl,
         "title": $("#title-input").val(),
-        "department": $("#department-input").val(),
-        "pea_bacode": $("#bacode-input").val(),
-        "pea_subregioncode": $("#subregioncode-input").val(),
-        "pea_baname": $("#baname-input").val()
+        "line_id": lineProfile.userId,
+        "line_access_token": $("#access-token-input").val(),
+        "avatar": lineProfile.pictureUrl,
         // "line_profile": lineProfile,
         // "pea_profile": peaProfile
       };
-      console.log(rc2Profile);
-      Disk.set("rc2_profile", rc2Profile);
-      let url = "https://rc2-data.aq1.co/pea-datalab/asia-east2/users/profile/create";
+      console.log(lineCollectProfile);
+      Disk.set("line_collect_profile", lineCollectProfile);
+      let url = "https://asia-east2-line-collect.cloudfunctions.net/users/profile/create";
       axios({
           method: 'post',
           url: url,
-          data: rc2Profile,
+          data: lineCollectProfile,
           cache: 'no-cache',
           credentials: 'same-origin',
         })
@@ -248,11 +309,12 @@
           username = $("#employee-username-input").val();
           window.open('', '_self').close();
 
-          if (liff.isInClient()) {
+          if (liff.isInClient()) 
+            //{
             liff.closeWindow();
-          } else {
-            window.location.href = `https://line-collect.web.app/organize.html?username=${username}`;
-          }
+          // } else {
+          //   window.location.href = `https://line-collect.web.app/organize.html?username=${username}`;
+          // }
 
           localStorage.clear();
         })
@@ -262,44 +324,10 @@
     });
   })
 
-  function getPeaProfile(peaUsername) {
-    url = `https://rc2-data.aq1.co/pea-datalab/asia-east2/users/profile/${peaUsername}/pea`;
-    axios({
-        method: 'get',
-        url: url,
-        cache: 'no-cache',
-        credentials: 'same-origin',
-      })
-      .then((response) => {
-        peaProfile = response.data;
-
-        let title = response.data.PositionDescShort[0];
-        let department = response.data.DepartmentShortName[0];
-        let firstname = response.data.FirstName[0];
-        let lastname = response.data.LastName[0];
-        let email = response.data.Email[0];
-
-        $("#first-name-input").val(peaProfile.FirstName[0]);
-        $("#last-name-input").val(peaProfile.LastName[0]);
-        $("#email-input").val(peaProfile.Email[0]);
-        $("#department-input").val(peaProfile.DepartmentShortName[0]);
-        $("#title-input").val(peaProfile.PositionDescShort[0]);
-
-        $("#bacode-input").val(peaProfile.BaCode[0]);
-        $("#baname-input").val(peaProfile.BaName[0]);
-        $("#subregioncode-input").val(peaProfile.SubRegionCode[0]);
-
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  function getRc2Profile(myLineID) {
-    if (myLineID == "")
-      myLineID = "Uda2f7d5dcf8f763f369b557ecab2c9df";
-    url = "https://rc2-data.aq1.co/pea-datalab/asia-east2/users/profile/line/" + myLineID;
+  function getCollectProfileByUsername(username) {
+    if (username == "")
+      username = "0826539264";
+    url = "https://asia-east2-line-collect.cloudfunctions.net/users/profile/" + username;
     axios({
         method: 'get',
         url: url,
@@ -310,16 +338,86 @@
         console.log(response.data);
         user = response.data[0];
 
-        $("#first-name-input").val(user.first_name);
-        $("#last-name-input").val(user.last_name);
+        $("#full-name-input").val(user.full_name);
         $("#email-input").val(user.email);
+        $("#mobile-input").val(user.username);
         $("#title-input").val(user.title);
-        $("#department-input").val(user.department);
-        $("#employee-username-input").val(user.pea_id);
+        $("#company-input").val(user.company);
+
+        collect_url += user.username;
+        console.log(collect_url)
+        genQR(url);
+
+        $(".full-name").html(user.full_name);
+        $(".email").html(user.email);
+        $(".title").html(user.title);
+        $(".company").html(user.company);
+        $(".avatar").attr("src",user.avatar);
       })
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  function getCollectProfile(myLineID) {
+    if (myLineID == "")
+      myLineID = "Uda2f7d5dcf8f763f369b557ecab2c9df";
+    url = "https://asia-east2-line-collect.cloudfunctions.net/users/profile/line/" + myLineID;
+    axios({
+        method: 'get',
+        url: url,
+        cache: 'no-cache',
+        credentials: 'same-origin',
+      })
+      .then((response) => {
+        console.log(response.data);
+        user = response.data[0];
+
+        $("#full-name-input").val(user.full_name);
+        $("#email-input").val(user.email);
+        $("#mobile-input").val(user.username);
+        $("#title-input").val(user.title);
+        $("#company-input").val(user.company);
+
+        collect_url += user.username;
+        genQR(url);
+
+        $(".full-name").html(user.full_name);
+        $(".email").html(user.email);
+        $(".title").html(user.title);
+        $(".company").html(user.company);
+        $(".avatar").attr("src",user.avatar);
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  function genQR(url){
+    var qr = kjua({
+      render: 'svg',
+      //mode:1,
+      // left: 30,
+      //  top: 30,
+      background: "#fff",
+      ecLevel: 'L',
+      size: 200,
+      quiet: 3,
+      text: url,
+      label: "c0826539264",
+      fontname: 'Helvetica',
+      fontcolor: '#000',
+      mode: 'plain'
+      //mode: 'image',
+      //image: $(".img-buffer").html()
+
+      // mSize: 0.2,
+      // mPosX: 0.5,
+      // mPosY: 0.5,
+
+    });
+    $("#qrcode").append(qr);
   }
 
   function getLineProfile() {
@@ -332,8 +430,8 @@
       Disk.set("line_profile", profile);
       $("#pictureUrl").attr("src", lineProfile.pictureUrl);
       $("#user-id-input").val(myLineID);
-      $("access-token-input").val(liff.getAccessToken());
-      getRc2Profile(myLineID);
+      $("#access-token-input").val(liff.getAccessToken());
+      getCollectProfile(myLineID);
     }).catch(function(error) {
       alert(error);
     });

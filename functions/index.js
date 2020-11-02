@@ -33,8 +33,8 @@ const projectId = "line-collect";
 
 // === express ===
 
-// const users = require('./user');
-// exports.users = builderFunction.onRequest(users.users);
+const users = require('./user');
+exports.users = builderFunction.onRequest(users.users);
 
 // const events = require('./event');
 // exports.events = builderFunction.onRequest(events.events);
