@@ -46,6 +46,9 @@
   .position {
     color:#C4C4C4;
   }
+  .btn-scan {
+    margin-top:1rem;
+  }
   .none {
     display:none;
   }
@@ -56,6 +59,10 @@
   .card {
     border:none !important;
     border-radius:10px !important;
+  }
+  .collect .card-body p {
+    margin-bottom:0px;
+
   }
 </style>
 
@@ -69,20 +76,20 @@
             <div class="profile-image mx-auto">
               <img class="avatar  img-fluid" src="" />
             </div>
-            <span class="full-name">Thananon Ngoenthaworn</span>
-            <span class="mobile">0826539264</span>
+            <p><span class="full-name">Thananon Ngoenthaworn</span></p>
+            <p><span class="mobile">0826539264</span></p>
             <p><span class="email">korr@aq1.co</span></p>
             <div id="qrcode">
               <!--  <img  class="img-fluid" /> -->
             </div>
-            <span class="position">Full stack developer</span>
+            <p><span class="position">Full stack developer</span></p>
             <p><span class="company">AQUARIO Co.,Ltd.</span></p>
             <img src="https://social-plugins.line.me/img/web/v3-share/square-default.png" class="none img-buffer" />
             <button class="btn btn-primary btn-lg btn-block btn-scan">
               Collect
             </button>
-            <button class="btn btn-success btn-lg btn-block update-profile">
-              Save
+            <button class="btn btn-success btn-lg btn-block btn-share">
+              Share
             </button>
           </div>
         </div>
@@ -232,19 +239,23 @@
     })
     
     console.log(params);
+    let username = "";
     if (params['username']) {
+      username = params['username'];
       getCollectProfileByUsername(params['username']);
       $("#mobile-input").val(params['username']);
     }
     // main liff id
     liff.init({ liffId: "1655196636-nvdWB6xz" }, () => {
+
       if (liff.isLoggedIn()) {
         getLineProfile();
+        loadShareFlex(username);
       } else {
         if (liff.isInClient())
           getLineProfile();
-        else
-          liff.login();
+        // else
+        //   liff.login();
       }
     }, err => console.log(err.code + " : " + err.message));
 
@@ -346,7 +357,7 @@
 
         collect_url += user.username;
         console.log(collect_url)
-        genQR(url);
+        genQR(collect_url);
 
         $(".full-name").html(user.full_name);
         $(".email").html(user.email);
@@ -380,7 +391,7 @@
         $("#company-input").val(user.company);
 
         collect_url += user.username;
-        genQR(url);
+        genQR(collect_url);
 
         $(".full-name").html(user.full_name);
         $(".email").html(user.email);
@@ -417,7 +428,7 @@
       // mPosY: 0.5,
 
     });
-    $("#qrcode").append(qr);
+    $("#qrcode").html(qr);
   }
 
   function getLineProfile() {
@@ -442,6 +453,22 @@
       liff.logout();
       liff.closeWindow();
     }
+  }
+
+  let flex = "";
+  let loadShareFlex = (username) => {
+    axios({
+        method: 'get',
+        url: `card/${username}/share`,
+        cache: 'no-cache',
+        credentials: 'same-origin',
+      })
+      .then((data) => {
+        console.log(data);
+        flex = data.data.flex;
+        event_id = data.data.event_id;
+        sendShare(flex, event_id);
+      })
   }
   </script>
 </body>
