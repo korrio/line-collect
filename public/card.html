@@ -6,6 +6,8 @@
   <title>LINE Collect :: My Card</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" />
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
   <script src="./js/kjua.min.js"></script>
   <script src="https://unpkg.com/axios@0.21.0/dist/axios.min.js"></script>
   <script src="https://static.line-scdn.net/liff/edge/versions/2.5.0/sdk.js"></script>
@@ -62,6 +64,8 @@
       username = params['username'];
       getCollectProfileByUsername(params['username']);
       $("#mobile-input").val(params['username']);
+    } else {
+      getCollectProfileByUsername("all");
     }
 
     if (params['action'] == 'mycard') {
@@ -82,22 +86,58 @@
       })
       .then((response) => {
         console.log(response.data);
-        user = response.data[0];
+        //user = response.data[0];
+        let i = 0;
 
-        collect_url = "https://liff.line.me/1655196636-nvdWB6xz?action=scan&username=";
-        collect_url += user.username;
-        genQR(collect_url);
+        response.data.forEach((user) => {
 
-        user2.name = user.full_name;
-        user2.avatar = user.avatar;
-        user2.line_id = user.line_id;
 
-        $(".full-name").html(user.full_name);
-        $(".email").html(user.email);
-        $(".position").html(user.title);
-        $(".company").html(user.company);
-        $(".avatar").attr("src", user.avatar);
-        $(".mobile").html(user.username);
+          user2.name = user.full_name;
+          user2.avatar = user.avatar;
+          user2.line_id = user.line_id;
+
+          let active = (i == 0) ? "active" : "";
+
+          let card_html = `
+          <div class="carousel-item ${active}">
+              <div class="row-card row">
+          <div class="col-md-3 collect-container">
+        <div class="card collect shadow mt-4">
+          <div class="card-body" class="align-middle align-center">
+            <div class="profile-image mx-auto">
+              <img src="${user.avatar}" class="avatar  img-fluid" src="" />
+            </div>
+            <p><span class="full-name">${user.full_name}</span></p>
+            <p><span class="position title">${user.title}</span></p>
+            <p><span class="company">${user.company}</span></p>
+            <div id="qrcode" class="c${user.username}">
+            </div>
+            <p><span class="mobile">${user.username}</span></p>
+            <p><span class="email">${user.email}</span></p>
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>`;
+
+          $(".carousel-inner").append(card_html);
+
+          collect_url = "https://liff.line.me/1655196636-nvdWB6xz?action=scan&username=";
+          collect_url += user.username;
+          genQR(`.c${user.username}`, collect_url);
+
+          i++;
+
+        })
+
+
+
+        // $(".full-name").html();
+        // $(".email").html();
+        // $(".position").html();
+        // $(".company").html();
+        // $(".avatar").attr("src", );
+        // $(".mobile").html();
 
         //saveProfileDisk();
       })
@@ -106,7 +146,7 @@
       });
   }
 
-  function genQR(url) {
+  function genQR(selector, url) {
     var qr = kjua({
       render: 'svg',
       //mode:1,
@@ -129,8 +169,8 @@
       // mPosY: 0.5,
 
     });
-    $("#qrcode").html(qr);
-    $("#qrcode").append('<img src="https://social-plugins.line.me/img/web/v3-share/square-default.png" class="img-buffer qr-logo" />')
+    $(selector).html(qr);
+    $(selector).append('<img src="https://social-plugins.line.me/img/web/v3-share/square-default.png" class="img-buffer qr-logo" />')
   }
 
   let getLineProfile = () => {
@@ -163,7 +203,7 @@
 
         collect_url = "https://liff.line.me/1655196636-nvdWB6xz?action=scan&username=";
         collect_url += user.username;
-        genQR(collect_url);
+        genQR("#qrcode", collect_url);
 
         $(".full-name").html(user.full_name);
         $(".email").html(user.email);
@@ -175,8 +215,8 @@
         //saveProfileDisk();
 
       })
-      .then(()=>{
-      	saveAction(user1,"scan",user2);
+      .then(() => {
+        saveAction(user1, "scan", user2);
       })
       .catch((error) => {
         console.log(error);
@@ -239,12 +279,7 @@
   }
   </script>
 </head>
-
-<body>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4 collect-container">
-        <!-- <div class="card collect text-white bg-primary shadow mt-4"> -->
+<!-- <div class="col-md-4 collect-container">
         <div class="card collect shadow mt-4">
           <div class="card-body" class="align-middle align-center">
             <div class="profile-image mx-auto">
@@ -253,21 +288,57 @@
             <p><span class="full-name"></span></p>
             <p><span class="position title"></span></p>
             <p><span class="company"></span></p>
-            <div id="qrcode">
-              <!--  <img  class="img-fluid" /> -->
+            <div id="qrcode" class="qrcode">
             </div>
             <p><span class="mobile"></span></p>
             <p><span class="email"></span></p>
           </div>
         </div>
+      </div> -->
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <h3 class="mb-3"></h3>
+      </div>
+      <div class="col-6" style="display:none;">
+        <div class="col-6 text-right">
+          <a class="btn btn-primary mb-3 mr-1" href="#carouselExampleIndicators2" role="button" data-slide="prev">
+            <i class="fa fa-arrow-left"></i>
+          </a>
+          <a class="btn btn-primary mb-3 " href="#carouselExampleIndicators2" role="button" data-slide="next">
+            <i class="fa fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+      <div class="col-12">
+        <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <!-- <div class="carousel-item active">
+              <div class="row-card row">
+              </div>
+            </div> -->
+<!--             <div class="carousel-item ">
+              <div class="row-card row">
+              </div>
+            </div> -->
+          </div>
+        </div>
       </div>
     </div>
   </div>
+  </div>
 </body>
 <style>
+.container {
+  //width:1440px !important;
+  max-width: 1440px !important;
+}
+
 .card {
   background: rgb(34, 193, 195);
-  background: linear-gradient(90deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+  background: linear-gradient(45deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
 }
 
 .card.collect>.card-body>p>span {
