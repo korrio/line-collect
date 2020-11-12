@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LINE Collect :: My Card</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 
@@ -329,8 +331,27 @@
     </div>
   </div>
   </div>
+  <div class="footer flex-container">
+<button type="button" class="flex-item btn btn-primary"><i class="fa fa-share" aria-hidden="true"></i> Share</button>
+<button type="button" class="flex-item btn btn-success"><i class="fa fa-handshake-o" aria-hidden="true"></i>
+ Collect</button>
+<!-- <button type="button" class="btn btn-info">Information</button>
+<button type="button" class="btn btn-warning">Caution</button>
+<button type="button" class="btn btn-danger">Alert</button> -->
+</div>
 </body>
 <style>
+
+	#__vconsole .vc-switch {
+		bottom: 50px;
+	}
+
+	.footer .btn {
+		border-radius:0px !important;
+	}
+	.flex-container { display: flex; justify-content: flex-start; } 
+.flex-item { width: 50%; }
+
 .container {
   //width:1440px !important;
   max-width: 1440px !important;
@@ -421,6 +442,17 @@
   margin-bottom: 0px;
 
 }
+
+.footer {
+	position: fixed;
+	width: 100%;
+	left: 0;
+	bottom: 0;
+/*	color: maroon;*/
+	text-align: center;
+	//background-color: green;
+}
+
 </style>
 
 </html>

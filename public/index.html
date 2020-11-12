@@ -376,73 +376,128 @@
 
     $('.btn-share').on("click", function(e) {
       let flex = {
-        "type": "bubble",
-        "header": {
-          "type": "box",
-          "layout": "vertical",
-          "contents": [{
-            "type": "text",
-            "text": "LINE Collect",
-            "color": "#FFFFFF",
-            "weight": "bold"
-          }]
-        },
-        "hero": {
-          "type": "image",
-          "url": `${lineCollectProfile.avatar}`,
-          "size": "xl"
-        },
-        "body": {
-          "type": "box",
-          "layout": "vertical",
-          "contents": [{
-              "type": "text",
-              "text": `${lineCollectProfile.full_name}.`,
-              "size": "xl",
-              "weight": "bold",
-              "align": "center"
-            },
-            {
-              "type": "text",
-              "text": `${lineCollectProfile.title}.`,
-              "align": "center"
-            },
-            {
-              "type": "separator",
-              "margin": "md"
-            },
-            {
-              "type": "box",
-              "layout": "vertical",
-              "contents": [{
-                  "type": "button",
-                  "action": {
-                    "type": "uri",
-                    "label": "LINE Collect",
-                    "uri": "https://line.me/ti/p/%40359lpdch"
-                  },
-                  "style": "link"
-                },
-                {
-                  "type": "button",
-                  "action": {
-                    "type": "uri",
-                    "label": "Call me",
-                    "uri": `https://line.me/R/call/66/${lineCollectProfile.mobile}`
-                  },
-                  "style": "link"
-                }
-              ],
-              "paddingTop": "10px"
-            }
-          ]
-        },
-        "styles": {
-          "header": {
-            "backgroundColor": "#00B900"
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "image",
+            "url": "https://profile.line-scdn.net/0hNHi52DQVEWdUTD1bZ3FuMGgJHwojYhcvLHkMVXNETAVwKAU5bXlWBCUbSwd6eVdmPXoJVnIZSAJ6",
+            "position": "relative",
+            "size": "md"
           }
-        }
-      };
+        ],
+        "cornerRadius": "150px",
+        "justifyContent": "center",
+        "alignItems": "center",
+        "width": "100px",
+        "height": "100px"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "ธนานนท์ เงินถาวร",
+            "size": "lg",
+            "weight": "bold",
+            "align": "center",
+            "color": "#ffffff"
+          },
+          {
+            "type": "text",
+            "text": "โปรแกรมเมอร์",
+            "align": "center",
+            "color": "#ffffff"
+          },
+          {
+            "type": "text",
+            "text": "AQ",
+            "align": "center",
+            "color": "#ffffff"
+          }
+        ],
+        "margin": "10px"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "image",
+            "url": "https://www.it24hrs.com/wp-content/uploads/2017/04/add-line-with-upload-qr-code-photo-04.webp",
+            "position": "relative",
+            "size": "xxl"
+          }
+        ],
+        "margin": "20px",
+        "justifyContent": "center",
+        "alignItems": "center",
+        "paddingBottom": "20px"
+      }
+    ],
+    "background": {
+      "type": "linearGradient",
+      "angle": "45deg",
+      "startColor": "#22c1c3",
+      "endColor": "#fdbb2d"
+    },
+    "alignItems": "center",
+    "justifyContent": "center"
+  },
+  "footer": {
+    "type": "box",
+    "layout": "horizontal",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "Collect",
+              "uri": "https://line.me/ti/p/%40359lpdch"
+            },
+            "style": "link",
+            "color": "#ffffff"
+          }
+        ],
+        "backgroundColor": "#12CF35",
+        "cornerRadius": "4px"
+      },
+      {
+        "type": "separator",
+        "margin": "10px"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "Share",
+              "uri": "https://line.me/ti/p/%40359lpdch"
+            },
+            "style": "link",
+            "color": "#ffffff"
+          }
+        ],
+        "backgroundColor": "#007bff",
+        "cornerRadius": "4px"
+      }
+    ]
+  }
+};
 
       sendShare(flex);
     })
