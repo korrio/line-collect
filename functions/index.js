@@ -360,6 +360,10 @@ exports.fireMail = builderFunction.onRequest((req, res) => {
   }).then((data) => res.status(200).json({ "data": data }));
 })
 
+exports.generateCard = builderFunction.onRequest((req, res) => {
+  res.render('card.html');
+})
+
 // exports.scheduled = functions.pubsub.schedule('every 1 second').onRun((context) => {
 //     console.log('This will be run every 1 second!');
 // })
@@ -397,3 +401,105 @@ String.prototype.sprintf = function() {
     return args[counter++];
   });
 };
+
+const { Parser } = require('json2csv');
+const _ = require('lodash');
+const { google } = require('googleapis');
+const sheets = google.sheets('v4')
+
+const spreadsheetId = '1aowp6T-uMZAJ7El-Uz0qL3c0TubloXqX5msyfpJ3DlY'
+
+const jwtClient = new google.auth.JWT({
+  email: serviceAccount.client_email,
+  key: serviceAccount.private_key,
+  scopes: ['https://www.googleapis.com/auth/spreadsheets'], // read and write sheets
+})
+const jwtAuthPromise = jwtClient.authorize()
+
+exports.copyToSheet = functions.region('asia-east2').database.ref('/events/1aowp6T-uMZAJ7El-Uz0qL3c0TubloXqX5msyfpJ3DlY').onUpdate(async events => {
+  const data = events.after.val();
+  console.log("data");
+  console.log(data)
+
+  let returnData = [];
+  // Sort the scores.  scores is an array of arrays each containing name and score.
+  // const actions = _.map(data.events, (value, key) => {
+  //   if (value) {
+  //     action = [
+  //       value.id,
+  //       value.user1,
+  //       value.user1_name,
+  //       value.user1_avatar,
+  //       value.action,
+  //       value.user2,
+  //       value.user2_name,
+  //       value.user2_avatar,
+  //       value.timestamp
+  //     ];
+  //     returnData.push(action);
+  //     return action;
+  //   } else {
+  //     return;
+  //   }
+  // })
+
+  for (var key in data) {
+    if (data.hasOwnProperty(key)) {
+        console.log(key + " -> " + data[key]);
+        let value = data[key];
+        action = [
+        value.id,
+        value.user1,
+        value.user1_name,
+        value.user1_avatar,
+        value.action,
+        value.user2,
+        value.user2_name,
+        value.user2_avatar,
+        value.timestamp
+      ];
+      returnData.push(action);
+    }
+  }
+
+  console.log("actions");
+  console.log(returnData);
+  // scores.sort((a,b) => { return b[1] - a[1] })
+  // [id  user1  user1_name  user1_avatar  action  user2  user2_name  user2_avatar  timestamp]
+  // ["Uxxxxxx","korr  https://yes.png  share  Uxxxxxx  pom  https://no.png  111111111111"]
+
+
+
+  await jwtAuthPromise
+  await sheets.spreadsheets.values.update({
+    auth: jwtClient,
+    spreadsheetId: spreadsheetId,
+    range: 'events!A2:I30', // update this range of cells
+    valueInputOption: 'RAW',
+    requestBody: { values: returnData }
+  }, {})
+})
+
+// const OPENWEATHER_APPID = "47f8380e1059b8129811e18df7ce3744"
+
+// exports.scheduledFunction = functions.region('asia-east2').pubsub.schedule("* * * * *").timeZone('Asia/Bangkok').onRun((context) => {
+//   return request({
+//     method: "GET",
+//     uri: `https://api.openweathermap.org/data/2.5/weather?appid=${OPENWEATHER_APPID}&units=metric&type=accurate&zip=10330,th`,
+//     json: true
+//   }).then(response => {
+//     const message = `City: ${response.name}\nTemperature: ${response.main.temp} by Korr`;
+//     return request({
+//       method: "GET",
+//       uri: `https://us-central1-pea-datalab.cloudfunctions.net/LineBotNotify?text=${message}`,
+//     }).then(() => {
+//       return console.info("Done");
+//     }).catch(error => {
+//       return Promise.reject(error);
+//     });
+//   }).then(() => {
+//     return console.info("Done");
+//   }).catch(error => {
+//     return Promise.reject(error);
+//   });
+// })

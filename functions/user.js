@@ -11,6 +11,7 @@ const builderFunction = functions.region('asia-east2').runWith(runtimeOptions).h
 const axios = require('axios');
 const express = require('express');
 const request = require("request-promise");
+const rp = require("request-promise");
 const xml2js = require('xml2js');
 //const seq = require('sequelize');
 
@@ -66,6 +67,38 @@ let User = db.lineapi_profile;
 //     res.status(200).json(results);
 //   })
 // })
+
+// appUser.get("/", async function(req, res) {
+
+// })
+
+appUser.post('/', (req, res) => {
+  if (req.body.method === 'eth_chainId') {
+    res.json({
+      "jsonrpc": "2.0",
+      "id": 13,
+      "result": "0x1"
+    });
+  } else {
+    var options = {
+      method: 'POST',
+      uri: 'https://eth.kulap.io',
+      body: req.body,
+      json: true // Automatically stringifies the body to JSON
+    };
+
+    rp(options)
+      .then(function(parsedBody) {
+        console.log(parsedBody)
+        res.json(parsedBody)
+        console.log(parsedBody)
+        // POST succeeded...
+      })
+      .catch(function(err) {
+        // POST failed...
+      });
+  }
+});
 
 appUser.get('/profile/line/:lineId/register', async function(req, res) {
 

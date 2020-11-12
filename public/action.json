@@ -1,0 +1,9 @@
+{ action: 'collect',
+      id: 555,
+      timestamp: 111111111111,
+      user1: 'Uxxxxxx',
+      user1_avatar: 'https://yes.png',
+      user1_name: 'pom',
+      user2: 'Uxxxxxx',
+      user2_avatar: 'https://no.png',
+      user2_name: 'korr' }

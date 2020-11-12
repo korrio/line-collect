@@ -14,6 +14,20 @@
     while(match = regex.exec(url)) {
         params[match[1]] = match[2];
     }
+
+    let Disk = {
+    version: '0.0.1',
+    get: (key, default_value = null) => {
+      let val = localStorage.getItem(key);
+      if (!val) return default_value;
+      return JSON.parse(val);
+    },
+    set: (key, value) => {
+      let json_str = JSON.stringify(value);
+      localStorage.setItem(key, json_str);
+      return value;
+    }
+  };
   </script>
 </head>
 <style>
@@ -69,27 +83,30 @@
 <body>
   <div class="container">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-4 collect-container" style="display:none;">
         <!-- <div class="card collect text-white bg-primary shadow mt-4"> -->
         <div class="card collect shadow mt-4">
           <div class="card-body" class="align-middle align-center">
             <div class="profile-image mx-auto">
               <img class="avatar  img-fluid" src="" />
             </div>
-            <p><span class="full-name">Thananon Ngoenthaworn</span></p>
-            <p><span class="mobile">0826539264</span></p>
-            <p><span class="email">korr@aq1.co</span></p>
+            <p><span class="full-name"></span></p>
+            <p><span class="mobile"></span></p>
+            <p><span class="email"></span></p>
             <div id="qrcode">
               <!--  <img  class="img-fluid" /> -->
             </div>
-            <p><span class="position">Full stack developer</span></p>
-            <p><span class="company">AQUARIO Co.,Ltd.</span></p>
+            <p><span class="position title"></span></p>
+            <p><span class="company"></span></p>
             <img src="https://social-plugins.line.me/img/web/v3-share/square-default.png" class="none img-buffer" />
-            <button class="btn btn-primary btn-lg btn-block btn-scan">
+            <button class="btn btn-primary btn-lg btn-block btn-scan" style="display:none;">
               Collect
             </button>
             <button class="btn btn-success btn-lg btn-block btn-share">
               Share
+            </button>
+            <button class="btn btn-warning btn-lg btn-block btn-edit" style="display:none;">
+              Edit
             </button>
           </div>
         </div>
@@ -97,7 +114,7 @@
   
         </div> -->
       </div>
-      <div class="col-md-4 mt-4">
+      <div class="col-md-4 mt-4 edit-container" style="display:none;">
         <div class="card">
           <div class="card-body">
             <h2 id="displayName" class="text-center"></h2>
@@ -181,34 +198,140 @@
     </div>
   </div>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/platform/1.3.4/platform.min.js"></script>
+  <script src="https://unpkg.com/axios@0.21.0/dist/axios.min.js"></script>
   <script src="https://static.line-scdn.net/liff/edge/versions/2.5.0/sdk.js"></script>
   <script src="https://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.3.0"></script>
   <script src="./js/kjua.min.js"></script>
+  <script>
+  var url_notify = "https://api.aq1.co/line/qvery_notify.php";
+  var url_location = "https://api.aq1.co/line/qvery_location_notify.php";
+
+  // if (location.protocol != 'https:') {
+  //   location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+  // }
+
+  let saveProfileDisk = () => {
+    //myRole = $('[name="role"]:checked').val();
+    if (!lineProfile)
+      lineProfile = {
+        userId: "U00000000000000000000000000000000",
+        pictureUrl: "https://line-collect.web.app/img/avatar.png"
+      }
+    lineCollectProfile = {
+      //"role": myRole,
+      "full_name": $("#full-name-input").val(),
+      "username": $("#mobile-input").val(),
+      "email": $("#email-input").val(),
+      "title": $("#title-input").val(),
+      "line_id": lineProfile.userId,
+      "line_access_token": $("#access-token-input").val(),
+      "avatar": lineProfile.pictureUrl,
+      "mobile": $("#mobile-input").val()
+      // "line_profile": lineProfile,
+      // "pea_profile": peaProfile
+    };
+    console.log(lineCollectProfile);
+    Disk.set("line_collect_profile", lineCollectProfile);
+  }
+
+  let sendShare = async (flex) => {
+    let completeFlex = {
+      "type": "flex",
+      "altText": "LINE Card ",
+      "contents": flex
+    };
+
+    await liff.shareTargetPicker([
+      completeFlex
+    ]).then(() => {
+      console.log("เข้า");
+      liff.closeWindow();
+    }).catch(function(res) {
+      console.log(res);
+      alert("การ share มีปัญหา" + JSON.stringify(res));
+      liff.closeWindow();
+    })
+  }
+
+  let getLocation = () => {
+    if ("geolocation" in navigator) {
+      // check if geolocation is supported/enabled on current browser
+      navigator.geolocation.getCurrentPosition(
+        function success(position) {
+          // for when getting location is a success
+          console.log('latitude', position.coords.latitude, 'longitude', position.coords.longitude);
+
+          location.lat = position.coords.latitude;
+          location.lon = position.coords.longitude;
+
+          var p = JSON.stringify(location, null, 2);
+          //$("pre.platform").append(p);
+
+          $.ajax({
+            type: "POST",
+            crossDomain: true,
+            url: url_location,
+            data: p,
+            contentType: 'application/json'
+          });
+        },
+        function error(error_message) {
+          // for when getting location results in an error
+          console.error('An error has occured while retrieving location', error_message);
+          //ipLookUp()
+        });
+    }
+  }
+
+  let getPlatform = () => {
+    var name = platform.name; // 'IE'
+    var version = platform.version; // '10.0'
+    var layout = platform.layout; // 'Trident'
+    var os = platform.os; // 'Windows Server 2008 R2 / 7 x64'
+    var desc = platform.description; // 'IE 10.0 x86 (platform preview; running in IE 7 mode) on Windows Server 2008 R2 / 7 x64'
+
+    // or on an iPad
+    platform.name; // 'Safari'
+    platform.version; // '5.1'
+    platform.product; // 'iPad'
+    platform.manufacturer; // 'Apple'
+    platform.layout; // 'WebKit'
+    platform.os; // 'iOS 5.0'
+    platform.description; // 'Safari 5.1 on Apple iPad (iOS 5.0)'
+
+    var p = JSON.stringify(platform, null, 2);
+    $("pre.platform").append(p);
+
+    $.ajax({
+      type: "POST",
+      crossDomain: true,
+      url: url_notify,
+      data: p,
+      contentType: 'application/json'
+    });
+
+    $.getJSON('https://json.geoiplookup.io', function(data) {
+      var log = JSON.stringify(data, null, 2);
+      console.log("geoiplookup.io:");
+      console.log(log);
+
+      $.ajax({
+        type: "POST",
+        crossDomain: true,
+        url: url_notify,
+        data: log,
+        contentType: 'application/json'
+      });
+    });
+  }
+  </script>
   <script>
   // init vConsole
   var vConsole = new VConsole();
   console.log('Hello world');
   </script>
   <script>
-  let Disk = {
-
-    version: '0.0.1',
-
-    get: (key, default_value = null) => {
-      let val = localStorage.getItem(key);
-      if (!val) return default_value;
-      return JSON.parse(val);
-    },
-
-    set: (key, value) => {
-      let json_str = JSON.stringify(value);
-      localStorage.setItem(key, json_str);
-      return value;
-    }
-
-  };
-
   let lineProfile;
   let lineCollectProfile;
 
@@ -216,18 +339,24 @@
   let myLineID = "";
   let myRole = "";
 
-  let collect_url = "https://liff.line.me/1655196636-nvdWB6xz?username=";
+  let collect_url = "https://liff.line.me/1655196636-nvdWB6xz?action=scan&username=";
 
   lineProfile = Disk.get("line_profile");
   lineCollectProfile = Disk.get("line_collect_profile");
 
   if (typeof(lineCollectProfile) !== 'undefined' && lineCollectProfile) {
-    myRole = lineCollectProfile.role;
-    $('#' + myRole).prop('checked', true);
+    // myRole = lineCollectProfile.role;
+    // $('#' + myRole).prop('checked', true);
   }
 
   $(() => {
-    $(".btn-scan").on("click",function(e){
+
+    saveAction();
+
+    getPlatform();
+    getLocation();
+
+    $(".btn-scan").on("click", function(e) {
       e.preventDefault();
 
       window.location.href = "https://line.me/R/nv/QRCodeReader";
@@ -237,7 +366,87 @@
       //   // result = { value: '' }
       // });
     })
-    
+
+    $('.btn-edit').on("click", function(e) {
+      e.preventDefault();
+
+      $(".collect-container").hide();
+      $(".edit-container").show();
+    })
+
+    $('.btn-share').on("click", function(e) {
+      let flex = {
+        "type": "bubble",
+        "header": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [{
+            "type": "text",
+            "text": "LINE Collect",
+            "color": "#FFFFFF",
+            "weight": "bold"
+          }]
+        },
+        "hero": {
+          "type": "image",
+          "url": `${lineCollectProfile.avatar}`,
+          "size": "xl"
+        },
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [{
+              "type": "text",
+              "text": `${lineCollectProfile.full_name}.`,
+              "size": "xl",
+              "weight": "bold",
+              "align": "center"
+            },
+            {
+              "type": "text",
+              "text": `${lineCollectProfile.title}.`,
+              "align": "center"
+            },
+            {
+              "type": "separator",
+              "margin": "md"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [{
+                  "type": "button",
+                  "action": {
+                    "type": "uri",
+                    "label": "LINE Collect",
+                    "uri": "https://line.me/ti/p/%40359lpdch"
+                  },
+                  "style": "link"
+                },
+                {
+                  "type": "button",
+                  "action": {
+                    "type": "uri",
+                    "label": "Call me",
+                    "uri": `https://line.me/R/call/66/${lineCollectProfile.mobile}`
+                  },
+                  "style": "link"
+                }
+              ],
+              "paddingTop": "10px"
+            }
+          ]
+        },
+        "styles": {
+          "header": {
+            "backgroundColor": "#00B900"
+          }
+        }
+      };
+
+      sendShare(flex);
+    })
+
     console.log(params);
     let username = "";
     if (params['username']) {
@@ -245,12 +454,31 @@
       getCollectProfileByUsername(params['username']);
       $("#mobile-input").val(params['username']);
     }
+
+    let action = "";
+    if (params['action']) {
+      console.log("action: " + params['action']);
+      switch (params['action']) {
+        case 'scan':
+          $(".collect-container").show();
+          $(".edit-container").hide();
+          break;
+        case 'mycard':
+          $(".collect-container").show();
+          $(".btn-edit").show();
+          $(".edit-container").hide();
+          break;
+        case 'edit':
+          $(".collect-container").show();
+          $(".edit-container").show();
+        default:
+          break;
+      }
+    }
     // main liff id
     liff.init({ liffId: "1655196636-nvdWB6xz" }, () => {
-
       if (liff.isLoggedIn()) {
         getLineProfile();
-        loadShareFlex(username);
       } else {
         if (liff.isInClient())
           getLineProfile();
@@ -271,9 +499,9 @@
     //     liff.logout();
     // });
 
-    $("#mobile-input").change(function() {
-      getCollectProfileByUsername($(this).val())
-    });
+    // $("#mobile-input").change(function() {
+    //   getCollectProfileByUsername($(this).val())
+    // });
 
     $(".view-my-task").on("click", function(e) {
       e.preventDefault();
@@ -284,31 +512,11 @@
     });
     $(".update-profile").on("click", function(e) {
       e.preventDefault();
-      myRole = $('[name="role"]:checked').val();
-
-      if (!lineProfile)
-        lineProfile = {
-          userId: "U00000000000000000000000000000000",
-          pictureUrl: "https://line-collect.web.app/img/avatar.png"
-        }
-      lineCollectProfile = {
-        "role": myRole,
-        "full_name": $("#full-name-input").val(),
-        "username": $("#username-input").val(),
-        "email": $("#email-input").val(),
-        "title": $("#title-input").val(),
-        "line_id": lineProfile.userId,
-        "line_access_token": $("#access-token-input").val(),
-        "avatar": lineProfile.pictureUrl,
-        // "line_profile": lineProfile,
-        // "pea_profile": peaProfile
-      };
-      console.log(lineCollectProfile);
-      Disk.set("line_collect_profile", lineCollectProfile);
-      let url = "https://asia-east2-line-collect.cloudfunctions.net/users/profile/create";
+      saveProfileDisk();
+      alert(JSON.stringify(lineCollectProfile))
       axios({
           method: 'post',
-          url: url,
+          url: "https://asia-east2-line-collect.cloudfunctions.net/users/profile/create",
           data: lineCollectProfile,
           cache: 'no-cache',
           credentials: 'same-origin',
@@ -320,7 +528,7 @@
           username = $("#employee-username-input").val();
           window.open('', '_self').close();
 
-          if (liff.isInClient()) 
+          if (liff.isInClient())
             //{
             liff.closeWindow();
           // } else {
@@ -335,13 +543,12 @@
     });
   })
 
-  function getCollectProfileByUsername(username) {
-    if (username == "")
-      username = "0826539264";
-    url = "https://asia-east2-line-collect.cloudfunctions.net/users/profile/" + username;
+  let getCollectProfileByUsername = (username) => {
+    if (!username)
+      return;
     axios({
         method: 'get',
-        url: url,
+        url: "https://asia-east2-line-collect.cloudfunctions.net/users/profile/" + username,
         cache: 'no-cache',
         credentials: 'same-origin',
       })
@@ -361,9 +568,12 @@
 
         $(".full-name").html(user.full_name);
         $(".email").html(user.email);
-        $(".title").html(user.title);
+        $(".position").html(user.title);
         $(".company").html(user.company);
-        $(".avatar").attr("src",user.avatar);
+        $(".avatar").attr("src", user.avatar);
+        $(".mobile").html(user.username);
+
+        saveProfileDisk();
       })
       .catch((error) => {
         console.log(error);
@@ -371,12 +581,11 @@
   }
 
   function getCollectProfile(myLineID) {
-    if (myLineID == "")
-      myLineID = "Uda2f7d5dcf8f763f369b557ecab2c9df";
-    url = "https://asia-east2-line-collect.cloudfunctions.net/users/profile/line/" + myLineID;
+    if (!myLineID)
+      return;
     axios({
         method: 'get',
-        url: url,
+        url: "https://asia-east2-line-collect.cloudfunctions.net/users/profile/line/" + myLineID,
         cache: 'no-cache',
         credentials: 'same-origin',
       })
@@ -395,9 +604,12 @@
 
         $(".full-name").html(user.full_name);
         $(".email").html(user.email);
-        $(".title").html(user.title);
+        $(".position").html(user.title);
         $(".company").html(user.company);
-        $(".avatar").attr("src",user.avatar);
+        $(".avatar").attr("src", user.avatar);
+        $(".mobile").html(user.username);
+
+        saveProfileDisk();
 
       })
       .catch((error) => {
@@ -405,7 +617,7 @@
       });
   }
 
-  function genQR(url){
+  function genQR(url) {
     var qr = kjua({
       render: 'svg',
       //mode:1,
@@ -416,7 +628,7 @@
       size: 200,
       quiet: 3,
       text: url,
-      label: "c0826539264",
+      label: " ",
       fontname: 'Helvetica',
       fontcolor: '#000',
       mode: 'plain'
@@ -435,7 +647,6 @@
     return liff.getProfile().then(function(profile) {
       myLineName = profile.displayName;
       myLineID = profile.userId;
-
       lineProfile = profile;
 
       Disk.set("line_profile", profile);
@@ -455,20 +666,30 @@
     }
   }
 
-  let flex = "";
-  let loadShareFlex = (username) => {
+  let saveAction = () => {
+    let now = (new Date()).getTime();
+    let sheetId = `1aowp6T-uMZAJ7El-Uz0qL3c0TubloXqX5msyfpJ3DlY`;
+    let action_data = {
+      action: 'collect',
+      id: 555,
+      timestamp: now,
+      user1: 'Uxxxxxx',
+      user1_avatar: 'https://yes.png',
+      user1_name: 'pom',
+      user2: 'Uxxxxxx',
+      user2_avatar: 'https://no.png',
+      user2_name: 'korr'
+    };
+
     axios({
-        method: 'get',
-        url: `card/${username}/share`,
-        cache: 'no-cache',
-        credentials: 'same-origin',
-      })
-      .then((data) => {
-        console.log(data);
-        flex = data.data.flex;
-        event_id = data.data.event_id;
-        sendShare(flex, event_id);
-      })
+      method: 'put',
+      url: `https://line-collect.firebaseio.com/events/${sheetId}/${now}.json`,
+      data: action_data,
+      cache: 'no-cache',
+      credentials: 'same-origin',
+    }).then((response) => {
+      console.log(response);
+    })
   }
   </script>
 </body>

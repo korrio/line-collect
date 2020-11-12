@@ -1,135 +1,81 @@
 {
   "type": "bubble",
-  "header":
-  {
+  "header": {
     "type": "box",
     "layout": "vertical",
     "contents": [
-    {
-      "type": "text",
-      "text": "ข้อมูลส่วนตัว (My Profile)",
-      "size": "md",
-      "align": "center",
-      "gravity": "center",
-      "weight": "bold",
-      "color": "#FFFFFF"
-    }]
+      {
+        "type": "text",
+        "text": "Flex Message Corp",
+        "color": "#FFFFFF",
+        "weight": "bold"
+      }
+    ]
   },
-  "hero":
-  {
+  "hero": {
     "type": "image",
-    "url": "https://profile.line-scdn.net/0h3rk608wtbF1WT0e8aQkTCmoKYjAhYWoVLnsgPiZKYmksKn5cbiEibiMaMGl4fS1canwhOXFIYT55",
-    "align": "center",
-    "size": "full",
-    "aspectRatio": "1:1",
-    "aspectMode": "cover",
-    "margin": "none",
-    "gravity": "center",
-    "action":
-    {
-      "type": "uri",
-      "label": "รายละเอียด",
-      "uri": "https://liff.line.me/1654302066-l88Eqor8"
-    }
+    "url": "https://developers.line.biz/media/messaging-api/using-flex-message-simulator/mary.png",
+    "size": "xl"
   },
-  "body":
-  {
+  "body": {
     "type": "box",
-    "layout": "horizontal",
-    "spacing": "md",
+    "layout": "vertical",
     "contents": [
-    {
-      "type": "box",
-      "layout": "vertical",
-      "flex": 2,
-      "contents": [
       {
-        "type": "box",
-        "layout": "horizontal",
-        "contents": [
-        {
-          "type": "text",
-          "text": "ชื่อ-นามสกุล",
-          "flex": 0
-        },
-        {
-          "type": "text",
-          "text": "นายสายชล จันทร์สวน",
-          "align": "end",
-          "weight": "bold"
-        }]
+        "type": "text",
+        "text": "Mary Smith",
+        "size": "xl",
+        "weight": "bold",
+        "align": "center"
+      },
+      {
+        "type": "text",
+        "text": "Founder at Flex Message Corp",
+        "align": "center"
+      },
+      {
+        "type": "separator",
+        "margin": "md"
       },
       {
         "type": "box",
-        "layout": "horizontal",
+        "layout": "vertical",
         "contents": [
-        {
-          "type": "text",
-          "text": "รหัสประจำตัว:"
-        },
-        {
-          "type": "text",
-          "text": "000 000",
-          "align": "end",
-          "weight": "bold"
-        }],
-        "margin": "xl"
-      },
-      {
-        "type": "box",
-        "layout": "horizontal",
-        "contents": [
-        {
-          "type": "text",
-          "text": "ตำแหน่ง:"
-        },
-        {
-          "type": "text",
-          "text": "หผ.มท.",
-          "align": "end",
-          "weight": "bold"
-        }],
-        "margin": "xl"
-      },
-      {
-        "type": "box",
-        "layout": "horizontal",
-        "contents": [
-        {
-          "type": "text",
-          "text": "สังกัด:"
-        },
-        {
-          "type": "text",
-          "text": "ผมท.กวว.ฝวบ.น.3",
-          "align": "end",
-          "weight": "bold"
-        }],
-        "margin": "xl"
-      },
-      {
-        "type": "box",
-        "layout": "horizontal",
-        "contents": [
-        {
-          "type": "text",
-          "text": "บทบาท:"
-        },
-        {
-          "type": "text",
-          "text": "นักวิเคราะห์",
-          "align": "end",
-          "weight": "bold"
-        }],
-        "margin": "xl"
-      }]
-    }]
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "Visit our website",
+              "uri": "https://example.com"
+            },
+            "style": "link"
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "Register with us",
+              "uri": "https://liff.line.me/xxxxx-xxxxxx/"
+            },
+            "style": "link"
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "Call us now",
+              "uri": "https://line.me/R/call/81/xxxxxxxxxxx"
+            },
+            "style": "link"
+          }
+        ],
+        "paddingTop": "10px"
+      }
+    ]
   },
-  "styles":
-  {
-    "header":
-    {
-      "backgroundColor": "#FD7007"
+  "styles": {
+    "header": {
+      "backgroundColor": "#00B900"
     }
   }
 }
