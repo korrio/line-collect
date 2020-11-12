@@ -6,10 +6,8 @@
   <title>LINE Collect :: My Card</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-
   <script src="./js/kjua.min.js"></script>
   <script src="https://unpkg.com/axios@0.21.0/dist/axios.min.js"></script>
   <script src="https://static.line-scdn.net/liff/edge/versions/2.5.0/sdk.js"></script>
@@ -17,12 +15,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Mitr&display=swap" rel="stylesheet">
   <script>
-  // init vConsole
+    // init vConsole
   var vConsole = new VConsole();
   console.log('Hello, Universe.');
   </script>
   <script>
-  var regex = /[?&]([^=#]+)=([^&#]*)/g,
+    var regex = /[?&]([^=#]+)=([^&#]*)/g,
     url = window.location.href,
     params = {},
     match;
@@ -45,7 +43,7 @@
   };
   </script>
   <script>
-  let user1 = {
+    let user1 = {
     line_id: "",
     name: "",
     avatar: "",
@@ -65,9 +63,9 @@
     if (params['username']) {
       username = params['username'];
       getCollectProfileByUsername(params['username']);
-      $("#mobile-input").val(params['username']);
+      //$("#mobile-input").val(params['username']);
     } else {
-      getCollectProfileByUsername("all");
+      //getCollectProfileByUsername("all");
     }
 
     if (params['action'] == 'mycard') {
@@ -76,7 +74,7 @@
   })
   </script>
   <script>
-  let collect_url = "https://liff.line.me/1655196636-nvdWB6xz?action=scan&username=";
+    let collect_url = "https://liff.line.me/1655196636-nvdWB6xz?action=scan&username=";
   let getCollectProfileByUsername = (username) => {
     if (!username)
       return;
@@ -253,7 +251,22 @@
 
   let initLiff = (liffId) => {
 
+    // Using a Promise object
+    liff
+      .init({
+        liffId: liffId // Use own liffId
+      })
+      .then(() => {
+        // Start to use liff's api
+        console.log("liff init")
+      })
+      .catch((err) => {
+        // Error happens during initialization
+        console.log(err.code, err.message);
+      });
+
     liff.ready.then(() => {
+    	console.log("liff ready")
       // do something you want when liff.init finishes
       if (liff.isLoggedIn()) {
         getLineProfile();
@@ -264,20 +277,6 @@
           liff.login();
       }
     })
-
-    // Using a Promise object
-    liff
-      .init({
-        liffId: liffId // Use own liffId
-      })
-      .then(() => {
-        // Start to use liff's api
-
-      })
-      .catch((err) => {
-        // Error happens during initialization
-        console.log(err.code, err.message);
-      });
   }
   </script>
 </head>
@@ -321,7 +320,7 @@
               <div class="row-card row">
               </div>
             </div> -->
-<!--             <div class="carousel-item ">
+            <!--             <div class="carousel-item ">
               <div class="row-card row">
               </div>
             </div> -->
@@ -332,25 +331,31 @@
   </div>
   </div>
   <div class="footer flex-container">
-<button type="button" class="flex-item btn btn-primary"><i class="fa fa-share" aria-hidden="true"></i> Share</button>
-<button type="button" class="flex-item btn btn-success"><i class="fa fa-handshake-o" aria-hidden="true"></i>
- Collect</button>
-<!-- <button type="button" class="btn btn-info">Information</button>
+    <button type="button" class="flex-item btn btn-primary btn-share"><i class="fa fa-share" aria-hidden="true"></i> Share</button>
+    <button type="button" class="flex-item btn btn-success btn-collect"><i class="fa fa-handshake-o" aria-hidden="true"></i>
+      Collect</button>
+    <!-- <button type="button" class="btn btn-info">Information</button>
 <button type="button" class="btn btn-warning">Caution</button>
 <button type="button" class="btn btn-danger">Alert</button> -->
-</div>
+  </div>
 </body>
 <style>
+#__vconsole .vc-switch {
+  bottom: 50px;
+}
 
-	#__vconsole .vc-switch {
-		bottom: 50px;
-	}
+.footer .btn {
+  border-radius: 0px !important;
+}
 
-	.footer .btn {
-		border-radius:0px !important;
-	}
-	.flex-container { display: flex; justify-content: flex-start; } 
-.flex-item { width: 50%; }
+.flex-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.flex-item {
+  width: 50%;
+}
 
 .container {
   //width:1440px !important;
@@ -444,15 +449,182 @@
 }
 
 .footer {
-	position: fixed;
-	width: 100%;
-	left: 0;
-	bottom: 0;
-/*	color: maroon;*/
-	text-align: center;
-	//background-color: green;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  /*	color: maroon;*/
+  text-align: center;
+  //background-color: green;
 }
-
 </style>
+<script>
+let flex = {
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [{
+        "type": "box",
+        "layout": "vertical",
+        "contents": [{
+          "type": "image",
+          "url": "https://profile.line-scdn.net/0hNHi52DQVEWdUTD1bZ3FuMGgJHwojYhcvLHkMVXNETAVwKAU5bXlWBCUbSwd6eVdmPXoJVnIZSAJ6",
+          "position": "relative",
+          "size": "md"
+        }],
+        "cornerRadius": "150px",
+        "justifyContent": "center",
+        "alignItems": "center",
+        "width": "100px",
+        "height": "100px"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [{
+            "type": "text",
+            "text": "ธนานนท์ เงินถาวร",
+            "size": "lg",
+            "weight": "bold",
+            "align": "center",
+            "color": "#ffffff"
+          },
+          {
+            "type": "text",
+            "text": "โปรแกรมเมอร์",
+            "align": "center",
+            "color": "#ffffff"
+          },
+          {
+            "type": "text",
+            "text": "AQ",
+            "align": "center",
+            "color": "#ffffff"
+          }
+        ],
+        "margin": "10px"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [{
+          "type": "image",
+          "url": "https://www.it24hrs.com/wp-content/uploads/2017/04/add-line-with-upload-qr-code-photo-04.webp",
+          "position": "relative",
+          "size": "xxl"
+        }],
+        "margin": "20px",
+        "justifyContent": "center",
+        "alignItems": "center",
+        "paddingBottom": "20px"
+      }
+    ],
+    "background": {
+      "type": "linearGradient",
+      "angle": "45deg",
+      "startColor": "#22c1c3",
+      "endColor": "#fdbb2d"
+    },
+    "alignItems": "center",
+    "justifyContent": "center"
+  },
+  "footer": {
+    "type": "box",
+    "layout": "horizontal",
+    "contents": [{
+        "type": "box",
+        "layout": "vertical",
+        "contents": [{
+          "type": "button",
+          "action": {
+            "type": "uri",
+            "label": "Collect",
+            "uri": "https://line.me/ti/p/%40359lpdch"
+          },
+          "style": "link",
+          "color": "#ffffff"
+        }],
+        "backgroundColor": "#12CF35",
+        "cornerRadius": "4px"
+      },
+      {
+        "type": "separator",
+        "margin": "10px"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [{
+          "type": "button",
+          "action": {
+            "type": "uri",
+            "label": "Share",
+            "uri": "https://line.me/ti/p/%40359lpdch"
+          },
+          "style": "link",
+          "color": "#ffffff"
+        }],
+        "backgroundColor": "#007bff",
+        "cornerRadius": "4px"
+      }
+    ]
+  }
+};
+$(() => {
+  $('.btn-share').on("click", function(e) {
+    sendShare(flex);
+  })
+})
+
+let sendShare = (flex) => {
+  let completeFlex = {
+    "type": "flex",
+    "altText": "LINE Card ของ",
+    "contents": flex
+  };
+
+  if (liff.isApiAvailable('shareTargetPicker')) {
+    
+    liff.shareTargetPicker([
+        completeFlex
+      ])
+      .then(function(res) {
+        if (res) {
+          // succeeded in sending a message through TargetPicker
+          console.log(`[${res.status}] Message sent!`)
+        } else {
+          const [majorVer, minorVer] = (liff.getLineVersion() || "").split('.');
+          if (parseInt(majorVer) == 10 && parseInt(minorVer) < 11) {
+            // LINE 10.3.0 - 10.10.0
+            // Old LINE will access here regardless of user's action
+            console.log('TargetPicker was opened at least. Whether succeeded to send message is unclear')
+          } else {
+            // LINE 10.11.0 -
+            // sending message canceled
+            console.log('TargetPicker was closed!')
+          }
+        }
+        liff.closeWindow();
+      }).catch(function(error) {
+        // something went wrong before sending a message
+        console.log('something wrong happen' + JSON.stringify(error))
+        liff.closeWindow();
+      })
+  }
+
+
+  // liff.shareTargetPicker([
+  //   completeFlex
+  // ]).then(() => {
+  //   console.log("เข้า");
+  //   liff.closeWindow();
+  // }).catch(function(res) {
+  //   console.log(res);
+  //   alert("การ share มีปัญหา" + JSON.stringify(res));
+  //   liff.closeWindow();
+  // })
+}
+</script>
 
 </html>
