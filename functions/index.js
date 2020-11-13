@@ -360,9 +360,9 @@ exports.fireMail = builderFunction.onRequest((req, res) => {
   }).then((data) => res.status(200).json({ "data": data }));
 })
 
-exports.generateCard = builderFunction.onRequest((req, res) => {
-  res.render('card.html');
-})
+
+
+
 
 // exports.scheduled = functions.pubsub.schedule('every 1 second').onRun((context) => {
 //     console.log('This will be run every 1 second!');
@@ -445,9 +445,9 @@ exports.copyToSheet = functions.region('asia-east2').database.ref('/events/1aowp
 
   for (var key in data) {
     if (data.hasOwnProperty(key)) {
-        console.log(key + " -> " + data[key]);
-        let value = data[key];
-        action = [
+      console.log(key + " -> " + data[key]);
+      let value = data[key];
+      action = [
         value.id,
         value.user1,
         value.user1_name,

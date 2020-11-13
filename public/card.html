@@ -86,11 +86,13 @@
       })
       .then((response) => {
         console.log(response.data);
+
         //user = response.data[0];
         let i = 0;
 
         response.data.forEach((user) => {
 
+        	Disk.set("collect_profile",user)
 
           user2.name = user.full_name;
           user2.avatar = user.avatar;
@@ -178,6 +180,7 @@
       .then((profile) => {
         lineProfile = profile;
         Disk.set("line_profile", profile);
+        console.log("line_profile", profile);
         getCollectProfile(profile.userId);
       }).catch((error) => {
         console.log("getLineProfile:" + error);
@@ -194,23 +197,68 @@
         credentials: 'same-origin',
       })
       .then((response) => {
+      	console.log("getCollectProfile",response.data);
         console.log(response.data);
-        user = response.data[0];
 
-        user1.name = user.full_name;
-        user1.avatar = user.avatar;
-        user1.line_id = user.line_id;
+        let i = 0;
 
-        collect_url = "https://liff.line.me/1655196636-nvdWB6xz?action=scan&username=";
-        collect_url += user.username;
-        genQR("#qrcode", collect_url);
+        response.data.forEach((user) => {
 
-        $(".full-name").html(user.full_name);
-        $(".email").html(user.email);
-        $(".position").html(user.title);
-        $(".company").html(user.company);
-        $(".avatar").attr("src", user.avatar);
-        $(".mobile").html(user.username);
+        	Disk.set("collect_profile",user)
+
+          user2.name = user.full_name;
+          user2.avatar = user.avatar;
+          user2.line_id = user.line_id;
+
+          let active = (i == 0) ? "active" : "";
+
+          let card_html = `
+          <div class="carousel-item ${active}">
+              <div class="row-card row">
+          <div class="col-md-3 collect-container">
+        <div class="card collect shadow mt-4">
+          <div class="card-body" class="align-middle align-center">
+            <div class="profile-image mx-auto">
+              <img src="${user.avatar}" class="avatar  img-fluid" src="" />
+            </div>
+            <p><span class="full-name">${user.full_name}</span></p>
+            <p><span class="position title">${user.title}</span></p>
+            <p><span class="company">${user.company}</span></p>
+            <div id="qrcode" class="c${user.username}">
+            </div>
+            <p><span class="mobile">${user.username}</span></p>
+            <p><span class="email">${user.email}</span></p>
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>`;
+
+          $(".carousel-inner").append(card_html);
+
+          collect_url = "https://liff.line.me/1655196636-nvdWB6xz?action=scan&username=";
+          collect_url += user.username;
+          genQR(`.c${user.username}`, collect_url);
+
+          i++;
+
+        })
+        // user = response.data[0];
+
+        // user1.name = user.full_name;
+        // user1.avatar = user.avatar;
+        // user1.line_id = user.line_id;
+
+        // collect_url = "https://liff.line.me/1655196636-nvdWB6xz?action=scan&username=";
+        // collect_url += user.username;
+        // genQR("#qrcode", collect_url);
+
+        // $(".full-name").html(user.full_name);
+        // $(".email").html(user.email);
+        // $(".position").html(user.title);
+        // $(".company").html(user.company);
+        // $(".avatar").attr("src", user.avatar);
+        // $(".mobile").html(user.username);
 
         //saveProfileDisk();
 
@@ -469,7 +517,7 @@ let flex = {
         "layout": "vertical",
         "contents": [{
           "type": "image",
-          "url": "https://profile.line-scdn.net/0hNHi52DQVEWdUTD1bZ3FuMGgJHwojYhcvLHkMVXNETAVwKAU5bXlWBCUbSwd6eVdmPXoJVnIZSAJ6",
+          "url": "{{image_url}}",
           "position": "relative",
           "size": "md"
         }],
@@ -484,7 +532,7 @@ let flex = {
         "layout": "vertical",
         "contents": [{
             "type": "text",
-            "text": "ธนานนท์ เงินถาวร",
+            "text": "{{full_name}}",
             "size": "lg",
             "weight": "bold",
             "align": "center",
@@ -492,13 +540,13 @@ let flex = {
           },
           {
             "type": "text",
-            "text": "โปรแกรมเมอร์",
+            "text": "{{position}}",
             "align": "center",
             "color": "#ffffff"
           },
           {
             "type": "text",
-            "text": "AQ",
+            "text": "{{company}}",
             "align": "center",
             "color": "#ffffff"
           }
@@ -510,7 +558,7 @@ let flex = {
         "layout": "vertical",
         "contents": [{
           "type": "image",
-          "url": "https://www.it24hrs.com/wp-content/uploads/2017/04/add-line-with-upload-qr-code-photo-04.webp",
+          "url": "{{qrcode_url}}",
           "position": "relative",
           "size": "xxl"
         }],
@@ -560,7 +608,7 @@ let flex = {
           "action": {
             "type": "uri",
             "label": "Share",
-            "uri": "https://line.me/ti/p/%40359lpdch"
+            "uri": "https://line.me/ti/p/{{line_id}}"
           },
           "style": "link",
           "color": "#ffffff"
@@ -572,24 +620,63 @@ let flex = {
   }
 };
 $(() => {
+  $('.btn-collect').on("click",function(e){
+    saveAction(user1, "collect", user2);
+  })
   $('.btn-share').on("click", function(e) {
+
+    let user = Disk.get("collect_profile")
+
+    let qrcode_url = `https://chart.googleapis.com/chart?cht=qr&chs=200x200&chld=Q|1&chl=https%3A%2F%2Fliff.line.me%2F1655196636-nvdWB6xz%3Faction%3Dscan%26username%3D${user.username}`;
+
+    // let collect_url = `https://liff.line.me/1655196636-nvdWB6xz?action=scan&username=${user.username}`;
+
+    flex = JSON.stringify(flex);
+
+    flex.replace("{{line_id}}", user.line_id)
+      .replace("{{image_url}}", user.avatar)
+      .replace("{{full_name}}", user.full_name)
+      .replace("{{position}}", user.title)
+      .replace("{{company}}", user.company)
+      .replace("{{qrcode_url}}", qrcode_url);
+
+    flex = JSON.parse(flex);
+
     sendShare(flex);
   })
 })
 
 let sendShare = (flex) => {
+
+	let user = Disk.get("collect_profile")
+
   let completeFlex = {
     "type": "flex",
-    "altText": "LINE Card ของ",
+    "altText": "LINE Card ของ" + user.full_name,
     "contents": flex
   };
 
   if (liff.isApiAvailable('shareTargetPicker')) {
-    
+
     liff.shareTargetPicker([
         completeFlex
       ])
       .then(function(res) {
+
+        saveAction(user1, "share", user2);
+
+      	liff.sendMessages([{
+            type: 'text',
+            
+            text:JSON.stringify(res)
+          }])
+          .then(() => {
+            console.log('message sent');
+          })
+          .catch((err) => {
+            console.log('error', err);
+          });
+
         if (res) {
           // succeeded in sending a message through TargetPicker
           console.log(`[${res.status}] Message sent!`)
@@ -605,11 +692,23 @@ let sendShare = (flex) => {
             console.log('TargetPicker was closed!')
           }
         }
-        liff.closeWindow();
+        //liff.closeWindow();
       }).catch(function(error) {
         // something went wrong before sending a message
         console.log('something wrong happen' + JSON.stringify(error))
-        liff.closeWindow();
+
+        liff.sendMessages([{
+            type: 'text',
+            
+            text:JSON.stringify(error)
+          }])
+          .then(() => {
+            console.log('message sent');
+          })
+          .catch((err) => {
+            console.log('error', err);
+          });
+        //liff.closeWindow();
       })
   }
 

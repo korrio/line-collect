@@ -10,6 +10,7 @@ const builderFunction = functions.region('asia-east2').runWith(runtimeOptions).h
 
 const axios = require('axios');
 const express = require('express');
+const bodyParser = require('body-parser');
 const request = require("request-promise");
 const rp = require("request-promise");
 const xml2js = require('xml2js');
@@ -24,7 +25,7 @@ const pool = new Pool({
   user: 'postgres',
   password: 'rcsquare',
   host: '167.71.213.91',
-  database: 'rc2_pea',
+  database: 'line_collect',
   port: 5432,
 })
 
@@ -100,6 +101,38 @@ appUser.post('/', (req, res) => {
   }
 });
 
+var path = require('path');
+var qrcode = require('express-qrcode');
+appUser.use(qrcode);
+
+appUser.use(express.static(__dirname + '/public'));
+appUser.set('views', __dirname + '/public/views');
+appUser.engine('html', require('ejs').renderFile);
+appUser.set('view engine', 'html');
+
+appUser.use(bodyParser.urlencoded({
+  extended: true
+}));
+appUser.use(bodyParser.json());
+
+// appUser.get("/qrcode",(req, res) => {
+//   var qrcode = req.qrcode();
+//   qrcode.setDimension(120, 120);
+//   qrcode.setCharset('UTF-8');
+//   qrcode.setCorrectionLevel('L', 0);
+//   qrcode.setData("teste");
+//   var image = qrcode.getImage();
+
+//   res.writeHead(200, {'Content-Type': 'image/jpeg' });
+//      res.end(image);
+//   //res.render('index', { title: 'Express', img: image });
+// })
+
+
+// appUser.get("/generateCard",(req, res) => {
+//   res.render('card.html');
+// })
+
 appUser.get('/profile/line/:lineId/register', async function(req, res) {
 
   deCORS(req, res);
@@ -123,6 +156,27 @@ appUser.get('/profile/all', function(req, res) {
         res.status(200).json(result);
     });
 })
+
+appUser.get('/list/:userId', function(req, res) {
+
+  deCORS(req, res);
+
+  let userId = req.params.userId;
+  let query = `SELECT *
+FROM lineapi_profile
+WHERE username IN ('0865613100', '0863979882')`;
+
+pool.query(query, async (error, results) => {
+  if(results)
+    res.status(200).json(results.rows);
+  else
+    res.status(200).json({"error":"error"});
+})
+
+
+})
+
+
 
 // const checkExistingProfile = async (line_id) => {
 

@@ -1,0 +1,117 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LINE Collect :: Search</title>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/axios@0.21.0/dist/axios.min.js"></script>
+  <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+  <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" />
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <style>
+    .list-group-item {
+  		padding:0px;
+  	}
+  	.none {
+  		display: none;
+  	}
+
+  	.list-group-item img {
+		width:50px;
+	}
+
+  	.ico-next {
+  		margin-top: 20px;
+  		cursor: pointer;
+  	}
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group c-search">
+          <label>You can search anythings from tags or letters</label>
+          <input type="text" class="form-control" id="contact-list-search" placeholder="Search name / tag / category / company">
+        </div>
+        <div class="" id="card_contacts">
+          <div id="contacts" class="panel-collapse collapse show" aria-expanded="true" style="">
+            <ul class="list-group pull-down" id="contact-list">
+            </ul>
+            <!--/contacts list-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://rawgit.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>
+  <script>
+  $(() => {
+
+
+    let username = "all";
+
+    axios({
+        method: 'get',
+        url: "https://asia-east2-line-collect.cloudfunctions.net/users/profile/" + username,
+        cache: 'no-cache',
+        credentials: 'same-origin',
+      })
+      .then((response) => {
+        console.log(response.data);
+
+        //user = response.data[0];
+        let i = 0;
+
+        response.data.forEach((user) => {
+          let list_html = `<li class="list-group-item"><div class="row w-100">
+                  <div class="col-3 col-sm-3 col-md-3 col-sm-3">
+                    <img src="${user.avatar}" alt="${user.full_name}" class="rounded-circle mx-auto d-block img-fluid avatar">
+                  </div>
+                  <div class="col-9 col-sm-9 search-selector col-md-9 col-sm-9 search-selector">
+                    <span class="fa  fa-chevron-right float-right ico-next"></span>
+                    <span class="name lead">${user.full_name}</span>
+                    <br>
+                    <span class="fa fa-map-marker fa-fw text-muted" data-toggle="tooltip" title="" data-original-title="5842 Hillcrest Rd"></span>
+                    <span class="text-muted">${user.company}</span>
+                    <br>
+                    <div class="none">
+                      <span class="fa fa-phone fa-fw text-muted" data-toggle="tooltip" title="" data-original-title="${user.username}"></span>
+                      <span class="text-muted small">${user.username}</span>
+                      <br>
+                      <span class="text-muted small text-truncate">${user.title}</span>
+                      <span class="text-muted small text-truncate">${user.email}</span>
+                    </div>
+                  </div>
+                </div></li>`;
+
+          $(".list-group").append(list_html);
+        })
+
+        $('#contact-list').searchable({
+          searchField: '#contact-list-search',
+          selector: 'li',
+          childSelector: '.search-selector',
+          show: function(elem) {
+            elem.slideDown(100);
+          },
+          hide: function(elem) {
+            elem.slideUp(100);
+          }
+        })
+      })
+
+
+  })
+  </script>
+  </div>
+</body>
+<style>
+@import url(//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css);
+</style>
+
+</html>
