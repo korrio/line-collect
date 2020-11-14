@@ -10,7 +10,8 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
   <script src="./js/kjua.min.js"></script>
   <script src="https://unpkg.com/axios@0.21.0/dist/axios.min.js"></script>
-  <script src="https://static.line-scdn.net/liff/edge/versions/2.5.0/sdk.js"></script>
+  <!-- <script src="https://static.line-scdn.net/liff/edge/versions/2.5.0/sdk.js"></script> -->
+  <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
   <script src="https://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.3.0"></script>
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Mitr&display=swap" rel="stylesheet">
@@ -68,8 +69,14 @@
       //getCollectProfileByUsername("all");
     }
 
-    if (params['action'] == 'mycard') {
+    if (params['action'] == 'mycard' ) {
       initLiff("1655196636-nvdWB6xz");
+    }
+    if (params['action'] == 'share') {
+      
+    }
+    if (params['action'] == 'collect') {
+      
     }
   })
   </script>
@@ -92,7 +99,7 @@
 
         response.data.forEach((user) => {
 
-        	Disk.set("collect_profile",user)
+          Disk.set("collect_profile",user)
 
           user2.name = user.full_name;
           user2.avatar = user.avatar;
@@ -143,6 +150,9 @@
 
         //saveProfileDisk();
       })
+      .then(() => {
+        saveAction(user1, "scan", user2);
+      })
       .catch((error) => {
         console.log(error);
       });
@@ -175,6 +185,8 @@
     $(selector).append('<img src="https://social-plugins.line.me/img/web/v3-share/square-default.png" class="img-buffer qr-logo" />')
   }
 
+  let lineProfile = {};
+
   let getLineProfile = () => {
     liff.getProfile()
       .then((profile) => {
@@ -182,6 +194,11 @@
         Disk.set("line_profile", profile);
         console.log("line_profile", profile);
         getCollectProfile(profile.userId);
+
+        user1.name = profile.displayName;
+        user1.avatar = profile.pictureUrl;
+        user1.line_id = profile.userId;
+
       }).catch((error) => {
         console.log("getLineProfile:" + error);
       });
@@ -197,14 +214,14 @@
         credentials: 'same-origin',
       })
       .then((response) => {
-      	console.log("getCollectProfile",response.data);
+        console.log("getCollectProfile",response.data);
         console.log(response.data);
 
         let i = 0;
 
         response.data.forEach((user) => {
 
-        	Disk.set("collect_profile",user)
+          Disk.set("collect_profile",user)
 
           user2.name = user.full_name;
           user2.avatar = user.avatar;
@@ -243,6 +260,8 @@
           i++;
 
         })
+
+
         // user = response.data[0];
 
         // user1.name = user.full_name;
@@ -264,7 +283,7 @@
 
       })
       .then(() => {
-        saveAction(user1, "scan", user2);
+        saveAction(user1, "view",user2);
       })
       .catch((error) => {
         console.log(error);
@@ -273,11 +292,12 @@
 
   let saveAction = (user1, action, user2) => {
     let now = (new Date()).getTime();
+    let now_human = new Date(1605171197049).toGMTString();
     let sheetId = `1aowp6T-uMZAJ7El-Uz0qL3c0TubloXqX5msyfpJ3DlY`;
     let action_data = {
       action: action,
       id: now,
-      timestamp: now,
+      timestamp: now_human,
       user1: user1.line_id,
       user1_avatar: user1.avatar,
       user1_name: user1.name,
@@ -294,6 +314,17 @@
       credentials: 'same-origin',
     }).then((response) => {
       console.log(response);
+
+      let message = `${user1.name} ${action} ${user2.name} card`;
+      message = encodeURI(message);
+
+      let push_url = `https://asia-east2-line-collect.cloudfunctions.net/LineBotPush?user_id=${user2.line_id}&message=${message}`;
+
+      axios(push_url,(res)=>{
+        console.log(res);
+      })
+
+      
     })
   }
 
@@ -314,7 +345,7 @@
       });
 
     liff.ready.then(() => {
-    	console.log("liff ready")
+      console.log("liff ready")
       // do something you want when liff.init finishes
       if (liff.isLoggedIn()) {
         getLineProfile();
@@ -501,13 +532,13 @@
   width: 100%;
   left: 0;
   bottom: 0;
-  /*	color: maroon;*/
+  /*  color: maroon;*/
   text-align: center;
   //background-color: green;
 }
 </style>
 <script>
-let flex = {
+let flex = `{
   "type": "bubble",
   "body": {
     "type": "box",
@@ -588,7 +619,7 @@ let flex = {
           "action": {
             "type": "uri",
             "label": "Collect",
-            "uri": "https://line.me/ti/p/%40359lpdch"
+            "uri": "https://liff.line.me/1655196636-lXvjNLXD/?username={{username}}"
           },
           "style": "link",
           "color": "#ffffff"
@@ -608,7 +639,7 @@ let flex = {
           "action": {
             "type": "uri",
             "label": "Share",
-            "uri": "https://line.me/ti/p/{{line_id}}"
+            "uri": "https://liff.line.me/1655196636-lXvjNLXD?username={{username}}"
           },
           "style": "link",
           "color": "#ffffff"
@@ -618,99 +649,125 @@ let flex = {
       }
     ]
   }
-};
+}`;
 $(() => {
-  $('.btn-collect').on("click",function(e){
+  $('.btn-collect').on("click", function(e) {
+    e.preventDefault();
     saveAction(user1, "collect", user2);
   })
   $('.btn-share').on("click", function(e) {
+    e.preventDefault();
 
     let user = Disk.get("collect_profile")
 
-    let qrcode_url = `https://chart.googleapis.com/chart?cht=qr&chs=200x200&chld=Q|1&chl=https%3A%2F%2Fliff.line.me%2F1655196636-nvdWB6xz%3Faction%3Dscan%26username%3D${user.username}`;
+    let qrcode_url = `https://asia-east2-line-collect.cloudfunctions.net/generateQr?username=${user.username}`;
 
     // let collect_url = `https://liff.line.me/1655196636-nvdWB6xz?action=scan&username=${user.username}`;
 
-    flex = JSON.stringify(flex);
+    //flex = JSON.stringify(flex);
 
-    flex.replace("{{line_id}}", user.line_id)
+    flex = flex.replace("{{line_id}}", user.line_id)
+      .replace("{{username}}",user.username)
+      .replace("{{username}}",user.username)
       .replace("{{image_url}}", user.avatar)
       .replace("{{full_name}}", user.full_name)
       .replace("{{position}}", user.title)
       .replace("{{company}}", user.company)
       .replace("{{qrcode_url}}", qrcode_url);
 
-    flex = JSON.parse(flex);
+    let flexJson = JSON.parse(flex);
 
-    sendShare(flex);
+    saveAction(user1, "share", user2);
+    sendShare(flexJson);
+
   })
 })
 
 let sendShare = (flex) => {
 
-	let user = Disk.get("collect_profile")
+  let user = Disk.get("collect_profile")
 
   let completeFlex = {
     "type": "flex",
-    "altText": "LINE Card ของ" + user.full_name,
+    "altText": "LINE Card ของ " + user.full_name,
     "contents": flex
   };
 
-  if (liff.isApiAvailable('shareTargetPicker')) {
+  let toUserId = lineProfile.userId ? lineProfile.userId : user1.line_id; 
+  toUserId = toUserId ? toUserId : user.line_id;
 
-    liff.shareTargetPicker([
-        completeFlex
-      ])
-      .then(function(res) {
-
-        saveAction(user1, "share", user2);
-
-      	liff.sendMessages([{
-            type: 'text',
-            
-            text:JSON.stringify(res)
-          }])
-          .then(() => {
-            console.log('message sent');
-          })
-          .catch((err) => {
-            console.log('error', err);
-          });
-
-        if (res) {
-          // succeeded in sending a message through TargetPicker
-          console.log(`[${res.status}] Message sent!`)
-        } else {
-          const [majorVer, minorVer] = (liff.getLineVersion() || "").split('.');
-          if (parseInt(majorVer) == 10 && parseInt(minorVer) < 11) {
-            // LINE 10.3.0 - 10.10.0
-            // Old LINE will access here regardless of user's action
-            console.log('TargetPicker was opened at least. Whether succeeded to send message is unclear')
-          } else {
-            // LINE 10.11.0 -
-            // sending message canceled
-            console.log('TargetPicker was closed!')
-          }
-        }
-        //liff.closeWindow();
-      }).catch(function(error) {
-        // something went wrong before sending a message
-        console.log('something wrong happen' + JSON.stringify(error))
-
-        liff.sendMessages([{
-            type: 'text',
-            
-            text:JSON.stringify(error)
-          }])
-          .then(() => {
-            console.log('message sent');
-          })
-          .catch((err) => {
-            console.log('error', err);
-          });
-        //liff.closeWindow();
-      })
+  let postData = {
+    "user_id":toUserId,
+    "message":completeFlex
   }
+
+  axios({
+      method: 'post',
+      url: `https://asia-east2-line-collect.cloudfunctions.net/LineBotPushFlexCustom`,
+      data: postData,
+      cache: 'no-cache',
+      credentials: 'same-origin',
+    }).then((response) => {
+      alert("ส่ง LINE Card ของ " + user.full_name + " แล้ว")
+    });
+
+  // axios({})
+
+  // if (liff.isApiAvailable('shareTargetPicker')) {
+
+  //   liff.shareTargetPicker([
+  //       completeFlex
+  //     ])
+  //     .then(function(res) {
+
+  //       saveAction(user1, "share", user2);
+
+  //       liff.sendMessages([{
+  //           type: 'text',
+
+  //           text: JSON.stringify(res)
+  //         }])
+  //         .then(() => {
+  //           console.log('message sent');
+  //         })
+  //         .catch((err) => {
+  //           console.log('error', err);
+  //         });
+
+  //       if (res) {
+  //         // succeeded in sending a message through TargetPicker
+  //         console.log(`[${res.status}] Message sent!`)
+  //       } else {
+  //         const [majorVer, minorVer] = (liff.getLineVersion() || "").split('.');
+  //         if (parseInt(majorVer) == 10 && parseInt(minorVer) < 11) {
+  //           // LINE 10.3.0 - 10.10.0
+  //           // Old LINE will access here regardless of user's action
+  //           console.log('TargetPicker was opened at least. Whether succeeded to send message is unclear')
+  //         } else {
+  //           // LINE 10.11.0 -
+  //           // sending message canceled
+  //           console.log('TargetPicker was closed!')
+  //         }
+  //       }
+  //       //liff.closeWindow();
+  //     }).catch(function(error) {
+  //       // something went wrong before sending a message
+  //       console.log('something wrong happen' + JSON.stringify(error))
+
+  //       liff.sendMessages([{
+  //           type: 'text',
+
+  //           text: JSON.stringify(error)
+  //         }])
+  //         .then(() => {
+  //           console.log('message sent');
+  //         })
+  //         .catch((err) => {
+  //           console.log('error', err);
+  //         });
+  //       //liff.closeWindow();
+  //     })
+  // }
 
 
   // liff.shareTargetPicker([

@@ -31,6 +31,23 @@
   </script>
 </head>
 <style>
+  #__vconsole .vc-switch {
+    bottom: 50px !important;
+  }
+
+  .footer .btn {
+    border-radius: 0px !important;
+  }
+
+  .flex-container {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .flex-item {
+    width: 50%;
+  }
+  
   .avatar {
     max-width:80px;
   }
@@ -60,9 +77,9 @@
   .position {
     color:#C4C4C4;
   }
-  .btn-scan {
+/*  .btn-scan {
     margin-top:1rem;
-  }
+  }*/
   .none {
     display:none;
   }
@@ -78,6 +95,28 @@
     margin-bottom:0px;
 
   }
+
+  .footer {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  /*  color: maroon;*/
+  text-align: center;
+  //background-color: green;
+}
+
+.profile-image {
+  float: right;
+position: absolute;
+right: 20px;
+top: 10px;
+}
+
+.profile-image img {
+  border-radius:50%;
+  cursor:pointer;
+}
 </style>
 
 <body>
@@ -87,9 +126,7 @@
         <!-- <div class="card collect text-white bg-primary shadow mt-4"> -->
         <div class="card collect shadow mt-4">
           <div class="card-body" class="align-middle align-center">
-            <div class="profile-image mx-auto">
-              <img class="avatar  img-fluid" src="" />
-            </div>
+            
             <p><span class="full-name"></span></p>
             <p><span class="mobile"></span></p>
             <p><span class="email"></span></p>
@@ -114,23 +151,26 @@
   
         </div> -->
       </div>
-      <div class="col-md-4 mt-4 edit-container" style="display:none;">
+      <div class="col-md-4 mt-4 edit-container">
         <div class="card">
           <div class="card-body">
             <h2 id="displayName" class="text-center"></h2>
             <form>
-              <!-- <h2>อัพเดทข้อมูลส่วนตัว</h2> -->
-              <div class="form-group">
+              <h2 class="title">My card</h2>
+              <div class="profile-image">
+                <img class="avatar img-fluid" src="" />
+              </div>
+              <div class="form-group none">
                 <label for="user-id-input">LINE ID</label>
                 <input type="text" class="form-control" id="user-id-input" placeholder="UID" disabled>
               </div>
-              <div class="form-group">
+              <div class="form-group none">
                 <label for="access-token-input">LINE ACCESS TOKEN</label>
                 <input type="text" class="form-control" id="access-token-input" placeholder="UID">
               </div>
               <div class="form-group">
                 <label for="full-name-input">Full name</label>
-                <input type="text" class="form-control" id="full-name-input" placeholder="First Name">
+                <input type="text" class="form-control" id="full-name-input" placeholder="Full name">
               </div>
               <div class="form-group">
                 <label for="mobile-input">Mobile number</label>
@@ -148,7 +188,7 @@
                 <label for="company-input">Company</label>
                 <input type="text" class="form-control" id="company-input" />
               </div>
-              <div class="form-group">
+              <div class="form-group none">
                 <label for="role">Role</label>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="role" id="role1" value="role1" checked>
@@ -176,9 +216,9 @@
                 </div>
               </div>
               <p id="getDecodedIDToken"></p>
-              <p>
+               <!--<p>
                 <button type="submit" class="btn btn-primary btn-lg btn-block update-profile">
-                  อัพเดทข้อมูล
+                  Save
                 </button>
               </p>
               <p>
@@ -190,17 +230,23 @@
                 <button type="button" class="btn btn-primary btn-lg btn-block logout">
                   ออกจากระบบ
                 </button>
-              </p>
+              </p> -->
             </form>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="footer flex-container">
+    <button type="button" class="flex-item btn btn-primary btn-scan"><i class="fa fa-share" aria-hidden="true"></i> Scan my card</button>
+    <button type="button" class="flex-item btn btn-success btn-preview"><i class="fa fa-handshake-o" aria-hidden="true"></i>
+      Preview ></button>
+  </div>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/platform/1.3.4/platform.min.js"></script>
   <script src="https://unpkg.com/axios@0.21.0/dist/axios.min.js"></script>
-  <script src="https://static.line-scdn.net/liff/edge/versions/2.5.0/sdk.js"></script>
+  <!-- <script src="https://static.line-scdn.net/liff/edge/versions/2.5.0/sdk.js"></script> -->
+  <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
   <script src="https://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.3.0"></script>
   <script src="./js/kjua.min.js"></script>
   <script>
@@ -227,7 +273,8 @@
       "line_id": lineProfile.userId,
       "line_access_token": $("#access-token-input").val(),
       "avatar": lineProfile.pictureUrl,
-      "mobile": $("#mobile-input").val()
+      "mobile": $("#mobile-input").val(),
+      "company": $("#company-input").val()
       // "line_profile": lineProfile,
       // "pea_profile": peaProfile
     };
@@ -359,7 +406,10 @@
     $(".btn-scan").on("click", function(e) {
       e.preventDefault();
 
-      window.location.href = "https://line.me/R/nv/QRCodeReader";
+      //window.location.href = "https://line.me/R/nv/QRCodeReader";
+
+      window.location.href = "https://line.me/R/nv/camera/";
+      
 
       // liff.scanCode().then(result => {
       //   console.log(result);
@@ -376,128 +426,117 @@
 
     $('.btn-share').on("click", function(e) {
       let flex = {
-  "type": "bubble",
-  "body": {
-    "type": "box",
-    "layout": "vertical",
-    "contents": [
-      {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "image",
-            "url": "https://profile.line-scdn.net/0hNHi52DQVEWdUTD1bZ3FuMGgJHwojYhcvLHkMVXNETAVwKAU5bXlWBCUbSwd6eVdmPXoJVnIZSAJ6",
-            "position": "relative",
-            "size": "md"
-          }
-        ],
-        "cornerRadius": "150px",
-        "justifyContent": "center",
-        "alignItems": "center",
-        "width": "100px",
-        "height": "100px"
-      },
-      {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "text",
-            "text": "ธนานนท์ เงินถาวร",
-            "size": "lg",
-            "weight": "bold",
-            "align": "center",
-            "color": "#ffffff"
-          },
-          {
-            "type": "text",
-            "text": "โปรแกรมเมอร์",
-            "align": "center",
-            "color": "#ffffff"
-          },
-          {
-            "type": "text",
-            "text": "AQ",
-            "align": "center",
-            "color": "#ffffff"
-          }
-        ],
-        "margin": "10px"
-      },
-      {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "image",
-            "url": "https://www.it24hrs.com/wp-content/uploads/2017/04/add-line-with-upload-qr-code-photo-04.webp",
-            "position": "relative",
-            "size": "xxl"
-          }
-        ],
-        "margin": "20px",
-        "justifyContent": "center",
-        "alignItems": "center",
-        "paddingBottom": "20px"
-      }
-    ],
-    "background": {
-      "type": "linearGradient",
-      "angle": "45deg",
-      "startColor": "#22c1c3",
-      "endColor": "#fdbb2d"
-    },
-    "alignItems": "center",
-    "justifyContent": "center"
-  },
-  "footer": {
-    "type": "box",
-    "layout": "horizontal",
-    "contents": [
-      {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "button",
-            "action": {
-              "type": "uri",
-              "label": "Collect",
-              "uri": "https://line.me/ti/p/%40359lpdch"
+        "type": "bubble",
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [{
+              "type": "box",
+              "layout": "vertical",
+              "contents": [{
+                "type": "image",
+                "url": "https://profile.line-scdn.net/0hNHi52DQVEWdUTD1bZ3FuMGgJHwojYhcvLHkMVXNETAVwKAU5bXlWBCUbSwd6eVdmPXoJVnIZSAJ6",
+                "position": "relative",
+                "size": "md"
+              }],
+              "cornerRadius": "150px",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "width": "100px",
+              "height": "100px"
             },
-            "style": "link",
-            "color": "#ffffff"
-          }
-        ],
-        "backgroundColor": "#12CF35",
-        "cornerRadius": "4px"
-      },
-      {
-        "type": "separator",
-        "margin": "10px"
-      },
-      {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "button",
-            "action": {
-              "type": "uri",
-              "label": "Share",
-              "uri": "https://line.me/ti/p/%40359lpdch"
+            {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [{
+                  "type": "text",
+                  "text": "ธนานนท์ เงินถาวร",
+                  "size": "lg",
+                  "weight": "bold",
+                  "align": "center",
+                  "color": "#ffffff"
+                },
+                {
+                  "type": "text",
+                  "text": "โปรแกรมเมอร์",
+                  "align": "center",
+                  "color": "#ffffff"
+                },
+                {
+                  "type": "text",
+                  "text": "AQ",
+                  "align": "center",
+                  "color": "#ffffff"
+                }
+              ],
+              "margin": "10px"
             },
-            "style": "link",
-            "color": "#ffffff"
-          }
-        ],
-        "backgroundColor": "#007bff",
-        "cornerRadius": "4px"
-      }
-    ]
-  }
-};
+            {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [{
+                "type": "image",
+                "url": "https://www.it24hrs.com/wp-content/uploads/2017/04/add-line-with-upload-qr-code-photo-04.webp",
+                "position": "relative",
+                "size": "xxl"
+              }],
+              "margin": "20px",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "paddingBottom": "20px"
+            }
+          ],
+          "background": {
+            "type": "linearGradient",
+            "angle": "45deg",
+            "startColor": "#22c1c3",
+            "endColor": "#fdbb2d"
+          },
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        "footer": {
+          "type": "box",
+          "layout": "horizontal",
+          "contents": [{
+              "type": "box",
+              "layout": "vertical",
+              "contents": [{
+                "type": "button",
+                "action": {
+                  "type": "uri",
+                  "label": "Collect",
+                  "uri": "https://line.me/ti/p/%40359lpdch"
+                },
+                "style": "link",
+                "color": "#ffffff"
+              }],
+              "backgroundColor": "#12CF35",
+              "cornerRadius": "4px"
+            },
+            {
+              "type": "separator",
+              "margin": "10px"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [{
+                "type": "button",
+                "action": {
+                  "type": "uri",
+                  "label": "Share",
+                  "uri": "https://line.me/ti/p/%40359lpdch"
+                },
+                "style": "link",
+                "color": "#ffffff"
+              }],
+              "backgroundColor": "#007bff",
+              "cornerRadius": "4px"
+            }
+          ]
+        }
+      };
 
       sendShare(flex);
     })
@@ -519,9 +558,9 @@
           $(".edit-container").hide();
           break;
         case 'mycard':
-          $(".collect-container").show();
+          $(".collect-container").hide();
           $(".btn-edit").show();
-          $(".edit-container").hide();
+          $(".edit-container").show();
           break;
         case 'edit':
           $(".collect-container").show();
@@ -531,16 +570,7 @@
       }
     }
     // main liff id
-    liff.init({ liffId: "1655196636-nvdWB6xz" }, () => {
-      if (liff.isLoggedIn()) {
-        getLineProfile();
-      } else {
-        if (liff.isInClient())
-          getLineProfile();
-        // else
-        //   liff.login();
-      }
-    }, err => console.log(err.code + " : " + err.message));
+    initLiff("1655196636-Z9zPRKyd");
 
 
     // var config = {
@@ -565,10 +595,27 @@
         external: false
       });
     });
+    $(".btn-preview").on("click", function(e) {
+      e.preventDefault();
+      saveProfileDisk();
+
+      axios({
+          method: 'post',
+          url: "https://asia-east2-line-collect.cloudfunctions.net/users/profile/create",
+          data: lineCollectProfile,
+          cache: 'no-cache',
+          credentials: 'same-origin',
+        })
+        .then((response) => {
+
+        })
+
+      window.location.href = `https://liff.line.me/1655196636-nvdWB6xz`;
+    })
     $(".update-profile").on("click", function(e) {
       e.preventDefault();
       saveProfileDisk();
-      alert(JSON.stringify(lineCollectProfile))
+      //alert(JSON.stringify(lineCollectProfile))
       axios({
           method: 'post',
           url: "https://asia-east2-line-collect.cloudfunctions.net/users/profile/create",
@@ -579,6 +626,8 @@
         .then((response) => {
           alert("บันทึกข้อมูล LINE Collect แล้ว");
           $(".update-profile").hide();
+
+          window.location.href = `https://liff.line.me/1655196636-nvdWB6xz`;
 
           username = $("#employee-username-input").val();
           window.open('', '_self').close();
@@ -598,6 +647,36 @@
     });
   })
 
+  let initLiff = (liffId) => {
+
+    // Using a Promise object
+    liff
+      .init({
+        liffId: liffId // Use own liffId
+      })
+      .then(() => {
+        // Start to use liff's api
+        console.log("liff init")
+      })
+      .catch((err) => {
+        // Error happens during initialization
+        console.log(err.code, err.message);
+      });
+
+    liff.ready.then(() => {
+      console.log("liff ready")
+      // do something you want when liff.init finishes
+      if (liff.isLoggedIn()) {
+        getLineProfile();
+      } else {
+        if (liff.isInClient()) {
+          liff.login();
+          getLineProfile();
+        }
+      }
+    })
+  }
+
   let getCollectProfileByUsername = (username) => {
     if (!username)
       return;
@@ -611,24 +690,29 @@
         console.log(response.data);
         user = response.data[0];
 
-        $("#full-name-input").val(user.full_name);
-        $("#email-input").val(user.email);
-        $("#mobile-input").val(user.username);
-        $("#title-input").val(user.title);
-        $("#company-input").val(user.company);
+        if(response.data[0]) {
 
-        collect_url += user.username;
-        console.log(collect_url)
-        genQR(collect_url);
+          $("#full-name-input").val(user.full_name);
+          $("#email-input").val(user.email);
+          $("#mobile-input").val(user.username);
+          $("#title-input").val(user.title);
+          $("#company-input").val(user.company);
 
-        $(".full-name").html(user.full_name);
-        $(".email").html(user.email);
-        $(".position").html(user.title);
-        $(".company").html(user.company);
-        $(".avatar").attr("src", user.avatar);
-        $(".mobile").html(user.username);
+          collect_url += user.username;
+          console.log(collect_url)
+          genQR(collect_url);
 
-        saveProfileDisk();
+          $(".full-name").html(user.full_name);
+          $(".email").html(user.email);
+          $(".position").html(user.title);
+          $(".company").html(user.company);
+          $(".avatar").attr("src", user.avatar);
+          $(".mobile").html(user.username);
+
+          saveProfileDisk();
+        } else {
+          window.location.href = "https://liff.line.me/1655196636-Z9zPRKyd";
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -706,6 +790,7 @@
 
       Disk.set("line_profile", profile);
       $("#pictureUrl").attr("src", lineProfile.pictureUrl);
+      $(".avatar").attr("src", lineProfile.pictureUrl);
       $("#user-id-input").val(myLineID);
       $("#access-token-input").val(liff.getAccessToken());
       getCollectProfile(myLineID);
