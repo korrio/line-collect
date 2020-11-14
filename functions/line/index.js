@@ -145,7 +145,10 @@ const handleText = async (message, replyToken, source) => {
  
 
   switch (message.text) {
-    case 'save': case 'collect': case 'collect':
+    case 'Save': 
+    case 'save': 
+    case 'collect': 
+    case 'Collect':
       return replyText(replyToken, "Saved to LINE Collect");
       // let returnedRegisterCard = await share.getRegister();
       // return replyFlex(replyToken, returnedRegisterCard);
