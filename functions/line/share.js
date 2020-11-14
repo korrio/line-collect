@@ -11,6 +11,17 @@ const pool = new Pool({
 })
 
 module.exports = {
+  getRegister: (name,email,phone) => {
+    let flex = require("./rich/registerFlex.json");
+    let flexString = JSON.stringify(flex);
+
+    flexString = flexString.replace("{{name}}", name)
+      .replace("{{email}}", email)
+      .replace("{{phone}}", phone);
+
+    flexObj = JSON.parse(flexString);;
+    return flexObj;
+  },
   getShare: async (username) => {
     let flex = require("./rich/profileFlex.json");
     let flexString = JSON.stringify(flex);
@@ -21,7 +32,7 @@ module.exports = {
       .replace("{{datehappen}}", (eventObj.datehappen).toString().substring(0, 10))
       .replace("{{timehappen}}", (eventObj.timehappen).toString().substring(0, 5))
       .replace("{{daterestore}}", (eventObj.daterestore).toString().substring(0, 10))
-   
+
     flex = JSON.parse(flexString);
     return flex;
   },
@@ -75,7 +86,7 @@ module.exports = {
             roleText = "D";
 
           flexObj.body.contents[0].contents[4].contents[1].text = roleText;
-        } 
+        }
 
 
         return flexObj;

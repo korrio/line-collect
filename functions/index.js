@@ -1,4 +1,4 @@
-//webhook: https://rc2-data.aq1.co/line-collect/us-central1/LineBotReply
+//webhook: https://asia-east2-line-collect.cloudfunctions.net/LineBotReply
 const functions = require("firebase-functions");
 const builderFunction = functions.region('asia-east2').https;
 const admin = require("firebase-admin");
@@ -282,6 +282,35 @@ const broadcast = async (theRes, text) => {
     console.log(data);
     theRes.status(200).json(data);
   });
+}
+
+const axios = require('axios');
+
+exports.generateQr = builderFunction.onRequest(async (req,res)=>{
+
+  let username = req.params.username;
+  let qrcode = `https://chart.googleapis.com/chart?cht=qr&chs=200x200&chld=Q|1&chl=https%3A%2F%2Fliff.line.me%2F1655196636-nvdWB6xz%3Faction%3Dscan%26username%3D${username}`;
+  let base64 = await getBase64(qrcode);
+
+  var base64Data = base64.replace(/^data:image\/png;base64,/, '');
+  console.log(base64Data)
+
+  var img = Buffer.from(base64Data, 'base64');
+
+  res.writeHead(200, {
+     'Content-Type': 'image/png',
+     'Content-Length': img.length
+   });
+   res.end(img);
+
+})
+
+let getBase64 = async (url) => {
+  return await axios
+    .get(url, {
+      responseType: 'arraybuffer'
+    })
+    .then(response => Buffer.from(response.data, 'binary').toString('base64'))
 }
 
 const log = (json) => {

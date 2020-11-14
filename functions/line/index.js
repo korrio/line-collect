@@ -2,6 +2,14 @@ const request = require("request-promise");
 const UUID = require("uuid-v4");
 const admin = require("firebase-admin");
 
+const { searchAddressByDistrict } = require('thai-address-database');
+
+var fs = require('fs');
+
+var BusinessCardParser = require("./reader/BusinessCardParser.js");
+var ContactInfo = require("./reader/ContactInfo.js");
+var parser, info
+
 module.exports = {
   pushFlex: (userId, messageJson) => {
     let message = {
@@ -47,8 +55,8 @@ module.exports = {
         }
 
       case 'follow':
-      // check user isRegistered 
-      // push register flex if isRegistered is true.
+        // check user isRegistered 
+        // push register flex if isRegistered is true.
         return replyText(event.replyToken, 'Got followed event');
 
       case 'unfollow':
@@ -77,9 +85,9 @@ module.exports = {
 
 }
 
-const channelId = '1654302068';
-const channelSecret = '46033a00e60324f83577e02725247b92';
-const channelAccessToken = 'hndXhxtnad2mzFVqU1URmzogvv4jGiA1YTKKHeQv6fq5biQiNwvl9U+DZ5FcNxkFFpP8nz59/ERBbeHXZdqwD/3L6CMNXQHAhyhTFQH2aG7LzPZfjP82XZehqEVgXo88rl1+n4oXpjrRQna73WwEbgdB04t89/1O/w1cDnyilFU=';
+const channelId = '1655196638';
+const channelSecret = 'b20c850a5e5c190c0475c77339e1aa0f';
+const channelAccessToken = 'Unw6fo+VLyL+fJm7EA91bzpAKwLnfizWI5v03aRAx49tDz6hybYvoyovgrc02zFgUCDjSKju8bCqkWHK0bC8TItfdJJYbUMth64pqWAu17uvKXZmmuM8LxuFaSnytlbzneUzVOv8szHS51YBwY1fgAdB04t89/1O/w1cDnyilFU=';
 const notifyToken = 'lgBzFsbK9W9pmZPVcpOmWDwSsGFY5FweCEWtnO3dTS7';
 
 const line = require('@line/bot-sdk');
@@ -100,45 +108,66 @@ var share = require('./share');
 const pureFlex = require("./rich/pureFlex.json");
 const sampleFlex = require("./rich/sampleFlex.json");
 
+function extractEmails(text) {
+  return text.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi);
+}
+
 const handleText = async (message, replyToken, source) => {
-  let baseURL = "http://rc2.aq1.co";
+  let baseURL = "http://line-hack.web.app";
   const buttonsImageURL = `${baseURL}/static/buttons/1040.jpg`;
   let theText = message.text;
   let str = message.text;
-  switch (message.text) {
-    case 'liff':
-      return replyText(replyToken, 'https://liff.line.me/1654302066-MlwPxVyw');
-    case 'register':
-      let returnedRegisterCard = await share.getRegister();
-      return replyFlex(replyToken, returnedRegisterCard);
-    case 'profile':
-      let returnedProfileCard = await share.getProfile(source.userId);
-      return replyFlex(replyToken, returnedProfileCard);
 
-    case (str.match(/(\d{6})/) || {}).input:
-      //let returnedProfileText = await share.getProfileFromPEA(source.userId);
-      return replyText(replyToken, source.userId);
+  parser = new BusinessCardParser("m", str)
+  info = parser.getContactInfo(parser.document);
+
+  console.log("Name: " + info.getName());
+  console.log("Phone: " + info.getPhoneNumber());
+  console.log("Email: " + info.getEmailAddress());
+
+  let returnStr = "Name: " + info.getName() + "\n";
+  returnStr += "Phone: " + info.getPhoneNumber() + "\n";
+  returnStr += "Email: " + info.getEmailAddress() + "\n";
+  //return replyText(replyToken, returnStr);
+
+  let name = info.getName();
+  let email = info.getEmailAddress();
+  let phone = info.getPhoneNumber();
+
+  let length = str.split(/\r\n|\r|\n/).length;
+
+  if(length>1) {
+     let returnedRegisterCard = await share.getRegister(name,email,phone);
+    return replyFlex(replyToken, returnedRegisterCard);
+  }
+
+
+ 
+
+  switch (message.text) {
+    case 'save': case 'collect': case 'collect':
+      return replyText(replyToken, "Saved to LINE Collect");
+      // let returnedRegisterCard = await share.getRegister();
+      // return replyFlex(replyToken, returnedRegisterCard);
+
+      // case (str.match(/(\d{6})/) || {}).input:
+      //   //let returnedProfileText = await share.getProfileFromPEA(source.userId);
+      //   return replyText(replyToken, source.userId);
 
     case (str.match(/([A-Z]{3})-(\d{4})/) || {}).input:
       let arr = str.match(/([A-Z]{3})-(\d{4})/);
       console.log(arr[0]);
       return replyFlex(replyToken, await share.getShare(arr[0]));
 
-    case 'share':
-      return replyFlex(replyToken, await share.getShare("LBA-0034"));
-    case 'event':
-      return replyFlex(replyToken, await share.getEvent("LBA-0034"));
-    case 'menu2':
-      return replyCarousel(replyToken, bubble);
+      // case 'share':
+      //   return replyFlex(replyToken, await share.getShare("LBA-0034"));
+      // case 'event':
+      //   return replyFlex(replyToken, await share.getEvent("LBA-0034"));
+
     case 'menu':
       return replyFlex(replyToken, bubblePea);
-    case 'sample':
-      return replyFlex(replyToken, sampleFlex);
-    case 'sample2':
-      return replyFlexCustom(replyToken, pureFlex);
-    case 'report':
-      return replyFlexCustom(replyToken, reportFlex);
-    case 'profile_':
+
+    case 'profile':
       if (source.userId) {
         return client.getProfile(source.userId)
           .then((profile) => replyText(
@@ -452,6 +481,6 @@ const getAI = (payload) => {
 }
 
 const getFollowers = () => {
-//   curl -v -X GET https://api.line.me/v2/bot/followers/ids\?start\=\{continuationToken\} \
-// -H 'Authorization: Bearer {channel access token}'
+  //   curl -v -X GET https://api.line.me/v2/bot/followers/ids\?start\=\{continuationToken\} \
+  // -H 'Authorization: Bearer {channel access token}'
 }

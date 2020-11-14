@@ -6,12 +6,42 @@
     "contents": [
       {
         "type": "text",
-        "text": "โปรดลงทะเบียนก่อนใช้งาน",
+        "text": "Collect this card ?",
         "size": "lg",
         "align": "center",
         "gravity": "center",
         "weight": "bold",
         "color": "#FFFFFF"
+      }
+    ]
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "Name:","weight": "bold"
+      },
+      {
+        "type": "text",
+        "text": "{{name}}"
+      },
+      {
+        "type": "text",
+        "text": "Email:","weight": "bold"
+      },
+      {
+        "type": "text",
+        "text": "{{email}}"
+      },
+      {
+        "type": "text",
+        "text": "Phone:","weight": "bold"
+      },
+      {
+        "type": "text",
+        "text": "{{phone}}"
       }
     ]
   },
@@ -22,18 +52,18 @@
       {
         "type": "button",
         "action": {
-          "type": "uri",
-          "label": "ลงทะเบียน",
-          "uri": "https://liff.line.me/1654302066-byOL1koO"
+          "type": "message",
+          "label": "Collect",
+          "text": "Collect"
         },
-        "color": "#6F64F8",
+        "color": "#12CF35",
         "style": "primary"
       }
     ]
   },
   "styles": {
     "header": {
-      "backgroundColor": "#FD7007"
+      "backgroundColor": "#2962FF"
     }
   }
 }
