@@ -57,7 +57,7 @@ module.exports = {
       case 'follow':
         // check user isRegistered 
         // push register flex if isRegistered is true.
-        return replyText(event.replyToken, 'Got followed event');
+        return replyText(event.replyToken, 'Welcome to LINE Collect\n Pls input your namecard information here https://liff.line.me/1655196636-Z9zPRKyd ');
 
       case 'unfollow':
         return console.log(`Unfollowed this bot: ${JSON.stringify(event)}`);
@@ -137,12 +137,12 @@ const handleText = async (message, replyToken, source) => {
   let length = str.split(/\r\n|\r|\n/).length;
 
   if(length>1) {
-     let returnedRegisterCard = await share.getRegister(name,email,phone);
+    let returnedRegisterCard = await share.getRegister(name,email,phone);
+
+    await share.copyContactToSheetFn(source.userId,name,email,phone);
+
     return replyFlex(replyToken, returnedRegisterCard);
   }
-
-
- 
 
   switch (message.text) {
     case 'Save': 
@@ -421,8 +421,6 @@ const upload = async (event) => {
   const fs = require('fs');
 
   let LINE_CONTENT_API = 'https://api-data.line.me/v2/bot/message'
-  let channelAccessToken = 'J5C9WZWRRgDvXgCZrdiQ/awKytSxqdtuwH26KXmvHbps/CHFYjWzib+lUBay7VWcFpP8nz59/ERBbeHXZdqwD/3L6CMNXQHAhyhTFQH2aG5zYXbdwG4J+eXi/fjgukVkHBvDR4q8grLY2DvQvgi6GgdB04t89/1O/w1cDnyilFU=';
-
   let LINE_HEADER = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${channelAccessToken}`

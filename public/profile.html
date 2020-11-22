@@ -1,0 +1,272 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LINE Collect :: Profile</title>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/axios@0.21.0/dist/axios.min.js"></script>
+  <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+  <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" />
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <style>
+    body {
+      color: #fff; 
+  }
+
+.container.no-padding {
+	padding: 0px;
+}
+
+.phoneFrame {
+  font-family: 'RobotoDraft', Arial;
+  color: #fff;
+  
+  width: 100%;
+  height: 100vh;
+  
+}
+
+.c-search{
+  padding: 30px 15px;
+}
+
+.c-search h2{
+  color: #000;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.screenEstate {
+  width: 100%;
+  height: 100vh;
+  
+  z-index: 1;
+  overflow: hidden;
+  background: #fff;
+}
+
+.topBar {
+  width: 100%;
+  padding: 15px 0;
+  background: #2962FF;
+  fill: #fff;
+  overflow: hidden;
+  position: relative;
+  z-index: 3;
+}
+
+.topBar div span {
+  font-size: 18px;
+  color: #fff;
+  float: left;
+  margin: 3px 0 0 10px;
+}
+
+.tabs {
+  background:#12CF35;
+  overflow: hidden;
+  position: relative;
+  z-index: 3;
+  height: 47px;
+}
+
+.tabs a {
+  width: 111px;
+  float: left;
+  margin: 0;
+  text-align: center;
+  color: #fff;
+  font-size: 16px;
+  padding: 13px 0;
+  border: none;
+}
+
+.tabs a.active {
+  border-bottom: rgba(255, 255, 255, 0.5) solid 5px;
+  height: 47px;
+}
+
+.tabContent-block{
+  position: relative;
+}
+
+.activeTab ul li {
+  padding-bottom: 13px !important;
+  margin-bottom: 0px !important;
+}
+
+.contact-content{
+    padding: 40px 0;
+}
+
+.contactIcon {
+    display: block;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contactIcon img {
+  width: 100px;
+  vertical-align: middle;
+}
+
+.contact-detail{
+    padding: 20px 0;
+}
+.contact-detail h3{
+    color: #000;
+    font-weight: bold;
+    font-size: 20px;
+}
+.contact-tag-title{
+    color: #999;  
+}
+.contact-position {
+    color: #999;
+}
+.contactDetails {
+  float: left;
+  margin-top: 7px;
+  font-size: 15px;
+  clear: right;
+  width: 64%;
+}
+
+.otherDetails {
+	
+  float: left;
+  color: #999;
+  clear: right;
+  width: 64%;
+}
+
+.phoneNo {
+	display:none;
+  margin-top: 7px;
+  color: #666;
+}
+
+.btn svg{
+    width: 20px;
+    height: 20px;
+}
+  </style>
+</head>
+
+<body>
+  <div class="container no-padding">
+    <div class="row no-gutters">
+      <div class="col-md-12">
+        <div class="phoneFrame">
+          <div class="screenEstate">
+            <div class="topBar">
+              <div class="container">
+                <div class="row">
+                  <div class="col-3 d-flex justify-content-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 24 24">
+                      <path class="hamburger" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
+                    </svg>
+                  </div>
+                  <div class="col-6 d-flex justify-content-center">              
+                    <span>Profile</span>
+                  </div>
+                  <div class="col-3 d-flex justify-content-end">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 24 24">
+                      <path class="hamburger" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="contact-content">
+                <div class="contactIcon">
+                    <img src="https://profile.line-scdn.net/0haAMnSlI3Pm5wFxaZAsNBOUxSMAMHOTgmCHVzXQBEZFkPc3E5GHN2CQceaFZfdHk_G3ZwC1UQZ1gJ" />
+                </div>
+                <div class="contact-detail text-center">
+                    <h3>Pom+</h3>
+                    <div class="contact-position">ThoughWorks</div>
+                    <a href="#" class="btn btn-outline-secondary"> 
+                        <svg height="512pt" viewBox="-21 0 512 512" width="512pt" xmlns="http://www.w3.org/2000/svg"><path d="m389.332031 160c-44.09375 0-80-35.882812-80-80s35.90625-80 80-80c44.097657 0 80 35.882812 80 80s-35.902343 80-80 80zm0-128c-26.453125 0-48 21.523438-48 48s21.546875 48 48 48 48-21.523438 48-48-21.546875-48-48-48zm0 0"/><path d="m389.332031 512c-44.09375 0-80-35.882812-80-80s35.90625-80 80-80c44.097657 0 80 35.882812 80 80s-35.902343 80-80 80zm0-128c-26.453125 0-48 21.523438-48 48s21.546875 48 48 48 48-21.523438 48-48-21.546875-48-48-48zm0 0"/><path d="m80 336c-44.097656 0-80-35.882812-80-80s35.902344-80 80-80 80 35.882812 80 80-35.902344 80-80 80zm0-128c-26.453125 0-48 21.523438-48 48s21.546875 48 48 48 48-21.523438 48-48-21.546875-48-48-48zm0 0"/><path d="m135.703125 240.425781c-5.570313 0-10.988281-2.902343-13.910156-8.0625-4.375-7.679687-1.707031-17.453125 5.972656-21.824219l197.953125-112.855468c7.65625-4.414063 17.449219-1.726563 21.800781 5.976562 4.375 7.679688 1.707031 17.449219-5.972656 21.824219l-197.953125 112.851563c-2.496094 1.40625-5.203125 2.089843-7.890625 2.089843zm0 0"/><path d="m333.632812 416.425781c-2.6875 0-5.398437-.683593-7.894531-2.109375l-197.953125-112.855468c-7.679687-4.371094-10.34375-14.144532-5.972656-21.824219 4.351562-7.699219 14.125-10.367188 21.804688-5.972657l197.949218 112.851563c7.679688 4.375 10.347656 14.144531 5.976563 21.824219-2.945313 5.183594-8.363281 8.085937-13.910157 8.085937zm0 0"/></svg>
+                        Share contact
+                    </a>
+                    <a href="#" class="btn btn-outline-danger"><svg height="427pt" viewBox="-40 0 427 427.00131" width="427pt" xmlns="http://www.w3.org/2000/svg"><path d="m232.398438 154.703125c-5.523438 0-10 4.476563-10 10v189c0 5.519531 4.476562 10 10 10 5.523437 0 10-4.480469 10-10v-189c0-5.523437-4.476563-10-10-10zm0 0"/><path d="m114.398438 154.703125c-5.523438 0-10 4.476563-10 10v189c0 5.519531 4.476562 10 10 10 5.523437 0 10-4.480469 10-10v-189c0-5.523437-4.476563-10-10-10zm0 0"/><path d="m28.398438 127.121094v246.378906c0 14.5625 5.339843 28.238281 14.667968 38.050781 9.285156 9.839844 22.207032 15.425781 35.730469 15.449219h189.203125c13.527344-.023438 26.449219-5.609375 35.730469-15.449219 9.328125-9.8125 14.667969-23.488281 14.667969-38.050781v-246.378906c18.542968-4.921875 30.558593-22.835938 28.078124-41.863282-2.484374-19.023437-18.691406-33.253906-37.878906-33.257812h-51.199218v-12.5c.058593-10.511719-4.097657-20.605469-11.539063-28.03125-7.441406-7.421875-17.550781-11.5546875-28.0625-11.46875h-88.796875c-10.511719-.0859375-20.621094 4.046875-28.0625 11.46875-7.441406 7.425781-11.597656 17.519531-11.539062 28.03125v12.5h-51.199219c-19.1875.003906-35.394531 14.234375-37.878907 33.257812-2.480468 19.027344 9.535157 36.941407 28.078126 41.863282zm239.601562 279.878906h-189.203125c-17.097656 0-30.398437-14.6875-30.398437-33.5v-245.5h250v245.5c0 18.8125-13.300782 33.5-30.398438 33.5zm-158.601562-367.5c-.066407-5.207031 1.980468-10.21875 5.675781-13.894531 3.691406-3.675781 8.714843-5.695313 13.925781-5.605469h88.796875c5.210937-.089844 10.234375 1.929688 13.925781 5.605469 3.695313 3.671875 5.742188 8.6875 5.675782 13.894531v12.5h-128zm-71.199219 32.5h270.398437c9.941406 0 18 8.058594 18 18s-8.058594 18-18 18h-270.398437c-9.941407 0-18-8.058594-18-18s8.058593-18 18-18zm0 0"/><path d="m173.398438 154.703125c-5.523438 0-10 4.476563-10 10v189c0 5.519531 4.476562 10 10 10 5.523437 0 10-4.480469 10-10v-189c0-5.523437-4.476563-10-10-10zm0 0"/></svg></a>
+                </div>
+                <div class="contact-tag text-center">
+                    <div class="contact-tag-title mb-2">tag</div>
+                    <div class="contact-tag-listing">
+                        <button type="button" class="btn btn-success btn-sm">Tech</button>
+                        <button type="button" class="btn btn-success btn-sm">Line hack</button>
+                        <button type="button" class="btn btn-success btn-sm">Marketing</button>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://rawgit.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>
+  <script>
+
+  $(() => {
+
+    $('#contact-list').searchable({
+      searchField: '#contact-list-search',
+      selector: 'li',
+      childSelector: '.search-selector',
+      show: function(elem) {
+        elem.slideDown(100);
+      },
+      hide: function(elem) {
+        elem.slideUp(100);
+      }
+    })
+
+    let username = "all";
+
+    axios({
+        method: 'get',
+        url: "https://asia-east2-line-collect.cloudfunctions.net/users/profile/" + username,
+        cache: 'no-cache',
+        credentials: 'same-origin',
+      })
+      .then((response) => {
+        console.log(response.data);
+
+        //user = response.data[0];
+        let i = 0;
+
+        response.data.forEach((user) => {
+
+        })
+
+        $('#contact-list').searchable({
+          searchField: '#contact-list-search',
+          selector: 'li',
+          childSelector: '.search-selector',
+          show: function(elem) {
+            elem.slideDown(100);
+          },
+          hide: function(elem) {
+            elem.slideUp(100);
+          }
+        })
+      })
+
+
+  })
+  </script>
+  </div>
+</body>
+<style>
+@import url(//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css);
+</style>
+
+</html>

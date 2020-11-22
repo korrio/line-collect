@@ -10,8 +10,42 @@ const pool = new Pool({
   port: 5432,
 })
 
+const { google } = require('googleapis');
+const sheets = google.sheets('v4')
+
+const spreadsheetId = '1aowp6T-uMZAJ7El-Uz0qL3c0TubloXqX5msyfpJ3DlY'
+
+const serviceAccount = require("./../serviceAccount.json");
+
+const jwtClient = new google.auth.JWT({
+  email: serviceAccount.client_email,
+  key: serviceAccount.private_key,
+  scopes: ['https://www.googleapis.com/auth/spreadsheets'], // read and write sheets
+})
+const jwtAuthPromise = jwtClient.authorize()
+
 module.exports = {
-  getRegister: (name,email,phone) => {
+  copyContactToSheetFn: async (line_id, name, email, phone) => {
+    let returnData = [];
+
+    action = [
+      line_id,
+      name,
+      email,
+      phone
+    ];
+    returnData.push(action);
+
+    await jwtAuthPromise
+    await sheets.spreadsheets.values.append({
+      auth: jwtClient,
+      spreadsheetId: spreadsheetId,
+      range: 'contacts!A2:A', // update this range of cells
+      valueInputOption: 'RAW',
+      requestBody: { values: returnData }
+    }, {})
+  },
+  getRegister: (name, email, phone) => {
     let flex = require("./rich/registerFlex.json");
     let flexString = JSON.stringify(flex);
 

@@ -286,7 +286,7 @@ const broadcast = async (theRes, text) => {
 
 const axios = require('axios');
 
-exports.generateQr = builderFunction.onRequest(async (req,res)=>{
+exports.generateQr = builderFunction.onRequest(async (req, res) => {
 
   let username = req.params.username;
   let qrcode = `https://chart.googleapis.com/chart?cht=qr&chs=200x200&chld=Q|1&chl=https%3A%2F%2Fliff.line.me%2F1655196636-nvdWB6xz%3Faction%3Dscan%26username%3D${username}`;
@@ -298,10 +298,10 @@ exports.generateQr = builderFunction.onRequest(async (req,res)=>{
   var img = Buffer.from(base64Data, 'base64');
 
   res.writeHead(200, {
-     'Content-Type': 'image/png',
-     'Content-Length': img.length
-   });
-   res.end(img);
+    'Content-Type': 'image/png',
+    'Content-Length': img.length
+  });
+  res.end(img);
 
 })
 
@@ -445,32 +445,12 @@ const jwtClient = new google.auth.JWT({
 })
 const jwtAuthPromise = jwtClient.authorize()
 
-exports.copyToSheet = functions.region('asia-east2').database.ref('/events/1aowp6T-uMZAJ7El-Uz0qL3c0TubloXqX5msyfpJ3DlY').onUpdate(async events => {
+exports.copyToSheet = functions.region('asia-east2').database.ref(`/events/${spreadsheetId}`).onUpdate(async events => {
   const data = events.after.val();
   console.log("data");
   console.log(data)
 
   let returnData = [];
-  // Sort the scores.  scores is an array of arrays each containing name and score.
-  // const actions = _.map(data.events, (value, key) => {
-  //   if (value) {
-  //     action = [
-  //       value.id,
-  //       value.user1,
-  //       value.user1_name,
-  //       value.user1_avatar,
-  //       value.action,
-  //       value.user2,
-  //       value.user2_name,
-  //       value.user2_avatar,
-  //       value.timestamp
-  //     ];
-  //     returnData.push(action);
-  //     return action;
-  //   } else {
-  //     return;
-  //   }
-  // })
 
   for (var key in data) {
     if (data.hasOwnProperty(key)) {
@@ -508,6 +488,28 @@ exports.copyToSheet = functions.region('asia-east2').database.ref('/events/1aowp
     requestBody: { values: returnData }
   }, {})
 })
+
+let copyContactToSheetFn = async (line_id,name,email,phone) => {
+
+  let returnData = [];
+
+  action = [
+    line_id,
+    name,
+    email,
+    phone
+  ];
+  returnData.push(action);
+
+  await jwtAuthPromise
+  await sheets.spreadsheets.values.update({
+    auth: jwtClient,
+    spreadsheetId: spreadsheetId,
+    range: 'contacts!A2:I30', // update this range of cells
+    valueInputOption: 'RAW',
+    requestBody: { values: returnData }
+  }, {})
+}
 
 // const OPENWEATHER_APPID = "47f8380e1059b8129811e18df7ce3744"
 

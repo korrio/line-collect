@@ -71,6 +71,7 @@
 
     if (params['action'] == 'mycard' ) {
       initLiff("1655196636-nvdWB6xz");
+
     }
     if (params['action'] == 'share') {
       
@@ -291,6 +292,7 @@
   }
 
   let saveAction = (user1, action, user2) => {
+
     let now = (new Date()).getTime();
     let now_human = new Date(1605171197049).toGMTString();
     let sheetId = `1aowp6T-uMZAJ7El-Uz0qL3c0TubloXqX5msyfpJ3DlY`;
@@ -306,26 +308,34 @@
       user2_name: user2.name
     };
 
-    axios({
-      method: 'put',
-      url: `https://line-collect.firebaseio.com/events/${sheetId}/${now}.json`,
-      data: action_data,
-      cache: 'no-cache',
-      credentials: 'same-origin',
-    }).then((response) => {
-      console.log(response);
-
-      let message = `${user1.name} ${action} ${user2.name} card`;
+    // axios({
+    //   method: 'put',
+    //   url: `https://line-collect.firebaseio.com/events/${sheetId}/${now}.json`,
+    //   data: action_data,
+    //   cache: 'no-cache',
+    //   credentials: 'same-origin',
+    // }).then((response) => {
+    //   console.log(response);
+    // })
+    let message = `${user1.name} ${action} ${user2.name} card`;
       message = encodeURI(message);
 
       let push_url = `https://asia-east2-line-collect.cloudfunctions.net/LineBotPush?user_id=${user2.line_id}&message=${message}`;
 
       axios(push_url,(res)=>{
         console.log(res);
-      })
+        let push_url2 = `https://asia-east2-line-collect.cloudfunctions.net/LineBotPush?user_id=${user1.line_id}&message=${message}`;
 
-      
-    })
+        axios(push_url2,(res)=>{
+          console.log(res);
+          window.open('', '_self').close();
+
+          if (liff.isInClient())
+            //{
+            liff.closeWindow();
+        })
+        
+      })
   }
 
   let initLiff = (liffId) => {
@@ -653,8 +663,18 @@ let flex = `{
 $(() => {
   $('.btn-collect').on("click", function(e) {
     e.preventDefault();
+    getLineProfile();
+    //alert("Complete LINE Collect namecard !");
+    //window.location.href = "https://line-collect.web.app/?action=collect";
     saveAction(user1, "collect", user2);
+    alert("Card is saved sucesfully !");
+
+    if (liff.isInClient())
+      liff.closeWindow();
+    else
+      window.open('', '_self').close();
   })
+
   $('.btn-share').on("click", function(e) {
     e.preventDefault();
 
@@ -662,13 +682,15 @@ $(() => {
 
     let qrcode_url = `https://asia-east2-line-collect.cloudfunctions.net/generateQr?username=${user.username}`;
 
+    axios(qrcode_url);
+
     // let collect_url = `https://liff.line.me/1655196636-nvdWB6xz?action=scan&username=${user.username}`;
 
     //flex = JSON.stringify(flex);
 
     flex = flex.replace("{{line_id}}", user.line_id)
-      .replace("{{username}}",user.username)
-      .replace("{{username}}",user.username)
+      .replace("{{username}}", user.username)
+      .replace("{{username}}", user.username)
       .replace("{{image_url}}", user.avatar)
       .replace("{{full_name}}", user.full_name)
       .replace("{{position}}", user.title)
@@ -693,23 +715,23 @@ let sendShare = (flex) => {
     "contents": flex
   };
 
-  let toUserId = lineProfile.userId ? lineProfile.userId : user1.line_id; 
+  let toUserId = lineProfile.userId ? lineProfile.userId : user1.line_id;
   toUserId = toUserId ? toUserId : user.line_id;
 
   let postData = {
-    "user_id":toUserId,
-    "message":completeFlex
+    "user_id": toUserId,
+    "message": completeFlex
   }
 
   axios({
-      method: 'post',
-      url: `https://asia-east2-line-collect.cloudfunctions.net/LineBotPushFlexCustom`,
-      data: postData,
-      cache: 'no-cache',
-      credentials: 'same-origin',
-    }).then((response) => {
-      alert("ส่ง LINE Card ของ " + user.full_name + " แล้ว")
-    });
+    method: 'post',
+    url: `https://asia-east2-line-collect.cloudfunctions.net/LineBotPushFlexCustom`,
+    data: postData,
+    cache: 'no-cache',
+    credentials: 'same-origin',
+  }).then((response) => {
+    alert("ส่ง LINE Card ของ " + user.full_name + " แล้ว")
+  });
 
   // axios({})
 

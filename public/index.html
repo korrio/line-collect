@@ -95,6 +95,9 @@
     margin-bottom:0px;
 
   }
+  .card-body .title {
+
+  }
 
   .footer {
   position: fixed;
@@ -188,6 +191,10 @@ top: 10px;
                 <label for="company-input">Company</label>
                 <input type="text" class="form-control" id="company-input" />
               </div>
+              <div class="form-group tag-input" style="display:none;">
+                <label for="company-input">Tags</label>
+                <input type="text" class="form-control" id="tag-input" />
+              </div>
               <div class="form-group none">
                 <label for="role">Role</label>
                 <div class="form-check">
@@ -216,11 +223,12 @@ top: 10px;
                 </div>
               </div>
               <p id="getDecodedIDToken"></p>
-               <!--<p>
+               <p>
                 <button type="submit" class="btn btn-primary btn-lg btn-block update-profile">
                   Save
                 </button>
               </p>
+              <!--
               <p>
                 <button type="button" class="btn btn-success btn-lg btn-block view-my-task">
                   รายชื่อ
@@ -237,10 +245,18 @@ top: 10px;
       </div>
     </div>
   </div>
+  <style>
+    .btn-preview {
+      width:100% !important;
+    }  
+  </style>
+
   <div class="footer flex-container">
-    <button type="button" class="flex-item btn btn-primary btn-scan"><i class="fa fa-share" aria-hidden="true"></i> Scan my card</button>
+    <!-- <button type="button" class="flex-item btn btn-primary btn-scan"><i class="fa fa-share" aria-hidden="true"></i> Scan my card</button> -->
     <button type="button" class="flex-item btn btn-success btn-preview"><i class="fa fa-handshake-o" aria-hidden="true"></i>
-      Preview ></button>
+      Preview</button>
+    <button type="button" class="flex-item btn btn-success btn-collect" style="display:none"><i class="fa fa-handshake-o" aria-hidden="true"></i>
+      Collect</button>
   </div>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/platform/1.3.4/platform.min.js"></script>
@@ -397,148 +413,12 @@ top: 10px;
   }
 
   $(() => {
-
-    saveAction();
-
     getPlatform();
-    getLocation();
-
-    $(".btn-scan").on("click", function(e) {
-      e.preventDefault();
-
-      //window.location.href = "https://line.me/R/nv/QRCodeReader";
-
-      window.location.href = "https://line.me/R/nv/camera/";
-      
-
-      // liff.scanCode().then(result => {
-      //   console.log(result);
-      //   // result = { value: '' }
-      // });
-    })
-
     $('.btn-edit').on("click", function(e) {
       e.preventDefault();
 
       $(".collect-container").hide();
       $(".edit-container").show();
-    })
-
-    $('.btn-share').on("click", function(e) {
-      let flex = {
-        "type": "bubble",
-        "body": {
-          "type": "box",
-          "layout": "vertical",
-          "contents": [{
-              "type": "box",
-              "layout": "vertical",
-              "contents": [{
-                "type": "image",
-                "url": "https://profile.line-scdn.net/0hNHi52DQVEWdUTD1bZ3FuMGgJHwojYhcvLHkMVXNETAVwKAU5bXlWBCUbSwd6eVdmPXoJVnIZSAJ6",
-                "position": "relative",
-                "size": "md"
-              }],
-              "cornerRadius": "150px",
-              "justifyContent": "center",
-              "alignItems": "center",
-              "width": "100px",
-              "height": "100px"
-            },
-            {
-              "type": "box",
-              "layout": "vertical",
-              "contents": [{
-                  "type": "text",
-                  "text": "ธนานนท์ เงินถาวร",
-                  "size": "lg",
-                  "weight": "bold",
-                  "align": "center",
-                  "color": "#ffffff"
-                },
-                {
-                  "type": "text",
-                  "text": "โปรแกรมเมอร์",
-                  "align": "center",
-                  "color": "#ffffff"
-                },
-                {
-                  "type": "text",
-                  "text": "AQ",
-                  "align": "center",
-                  "color": "#ffffff"
-                }
-              ],
-              "margin": "10px"
-            },
-            {
-              "type": "box",
-              "layout": "vertical",
-              "contents": [{
-                "type": "image",
-                "url": "https://www.it24hrs.com/wp-content/uploads/2017/04/add-line-with-upload-qr-code-photo-04.webp",
-                "position": "relative",
-                "size": "xxl"
-              }],
-              "margin": "20px",
-              "justifyContent": "center",
-              "alignItems": "center",
-              "paddingBottom": "20px"
-            }
-          ],
-          "background": {
-            "type": "linearGradient",
-            "angle": "45deg",
-            "startColor": "#22c1c3",
-            "endColor": "#fdbb2d"
-          },
-          "alignItems": "center",
-          "justifyContent": "center"
-        },
-        "footer": {
-          "type": "box",
-          "layout": "horizontal",
-          "contents": [{
-              "type": "box",
-              "layout": "vertical",
-              "contents": [{
-                "type": "button",
-                "action": {
-                  "type": "uri",
-                  "label": "Collect",
-                  "uri": "https://line.me/ti/p/%40359lpdch"
-                },
-                "style": "link",
-                "color": "#ffffff"
-              }],
-              "backgroundColor": "#12CF35",
-              "cornerRadius": "4px"
-            },
-            {
-              "type": "separator",
-              "margin": "10px"
-            },
-            {
-              "type": "box",
-              "layout": "vertical",
-              "contents": [{
-                "type": "button",
-                "action": {
-                  "type": "uri",
-                  "label": "Share",
-                  "uri": "https://line.me/ti/p/%40359lpdch"
-                },
-                "style": "link",
-                "color": "#ffffff"
-              }],
-              "backgroundColor": "#007bff",
-              "cornerRadius": "4px"
-            }
-          ]
-        }
-      };
-
-      sendShare(flex);
     })
 
     console.log(params);
@@ -553,6 +433,13 @@ top: 10px;
     if (params['action']) {
       console.log("action: " + params['action']);
       switch (params['action']) {
+        case 'collect':
+          $(".card-body .title").html("Collect");
+          $(".btn-edit").show();
+          $(".btn-preview").hide();
+          $(".btn-collect").show();
+          $(".tag-input").show();
+          break;
         case 'scan':
           $(".collect-container").show();
           $(".edit-container").hide();
@@ -599,6 +486,8 @@ top: 10px;
       e.preventDefault();
       saveProfileDisk();
 
+      alert(JSON.stringify(lineCollectProfile));
+
       axios({
           method: 'post',
           url: "https://asia-east2-line-collect.cloudfunctions.net/users/profile/create",
@@ -608,10 +497,12 @@ top: 10px;
         })
         .then((response) => {
 
-        })
+          alert(response.data);
 
-      window.location.href = `https://liff.line.me/1655196636-nvdWB6xz`;
+          window.location.href = `https://liff.line.me/1655196636-nvdWB6xz`;
+        })  
     })
+    
     $(".update-profile").on("click", function(e) {
       e.preventDefault();
       saveProfileDisk();
@@ -628,7 +519,6 @@ top: 10px;
           $(".update-profile").hide();
 
           window.location.href = `https://liff.line.me/1655196636-nvdWB6xz`;
-
           username = $("#employee-username-input").val();
           window.open('', '_self').close();
 
@@ -711,7 +601,7 @@ top: 10px;
 
           saveProfileDisk();
         } else {
-          window.location.href = "https://liff.line.me/1655196636-Z9zPRKyd";
+          //window.location.href = "https://liff.line.me/1655196636-Z9zPRKyd";
         }
       })
       .catch((error) => {
